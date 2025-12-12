@@ -1,0 +1,84 @@
+//
+//  ExerciseDetailView.swift
+//  workout
+//
+//  Created by user0862 on 2025/12/5.
+//
+
+import SwiftUI
+
+struct ExerciseDetailView: View {
+    let exercise: Exercise
+    @State private var selectedTab: Int = 0
+    @Environment(\.dismiss) var dismiss
+
+    var body: some View {
+        VStack(spacing: 0) {
+            // Handle
+            Capsule()
+                .fill(Color.gray.opacity(0.5))
+                .frame(width: 40, height: 5)
+                .padding(.top, 8)
+                .padding(.bottom, 8)
+
+            ScrollView {
+                VStack(alignment: .leading, spacing: 16) {
+                    Text(exercise.name)
+                        .font(.largeTitle)
+                        .fontWeight(.bold)
+                    
+                    Text(exercise.muscleGroups)
+                        .font(.headline)
+                        .foregroundColor(.secondary)
+
+                    // The app will look for an image in the asset catalog with the same name as the exercise.
+                    // For example, for "深蹲 (Squats)", you should add an image set named "深蹲 (Squats)".
+                    Image(uiImage: UIImage(named: exercise.name) ?? UIImage(named: exercise.img)!)
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .frame(height: 200)
+                        .clipped()
+                        .cornerRadius(20)
+
+                    Picker("Details", selection: $selectedTab) {
+                        Text("動作指引").tag(0)
+                        Text("常見錯誤").tag(1)
+                    }
+                    .pickerStyle(SegmentedPickerStyle())
+
+                    if selectedTab == 0 {
+                        Text(exercise.instructions)
+                        .font(.body)
+                        .foregroundColor(.secondary)
+                    } else {
+                        Text(exercise.commonMistakes)
+                            .font(.body)
+                            .foregroundColor(.secondary)
+                    }
+                }
+                .padding()
+            }
+            
+            Button(action: {
+                dismiss()
+            }) {
+                Text("關閉")
+                    .font(.headline)
+                    .fontWeight(.bold)
+                    .frame(maxWidth: .infinity)
+                    .padding()
+                    .background(Color(UIColor.systemGray5))
+                    .foregroundColor(.primary)
+                    .cornerRadius(20)
+            }
+            .padding(.horizontal, 32)
+            .padding(.bottom, 40)
+        }
+    }
+}
+
+struct ExerciseDetailView_Previews: PreviewProvider {
+    static var previews: some View {
+        ExerciseDetailView(exercise: Exercise(name: "深蹲 (Squats)",img: "exercise-detail-banner", sets: 3, reps: "10 次", videoURL: nil, description: "", muscleGroups: "股四頭肌、臀大肌", instructions: "1. 雙腳與肩同寬，腳尖微朝外。\n2. 抬頭挺胸，核心收緊，背部打直。\n3. 臀部像坐椅子一樣向後推，同時下蹲，直到大腿與地面平行。\n4. 過程中保持膝蓋與腳尖方向一致。\n5. 用臀腿力量發力，站回起始位置。", commonMistakes: "1. 膝蓋內夾：在下蹲或站起時，膝蓋向內靠攏，這會對膝關節造成過大壓力。\n2. 駝背或過度拱背：背部沒有保持打直，容易導致下背部受傷。", category: "腿部"))
+    }
+}

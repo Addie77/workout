@@ -1,0 +1,1090 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Work Out App - iOS 原型</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* 模擬 Apple SF Pro 字體 */
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    }
+
+    /* iOS 裝置外框樣式 */
+    .iphone-shell {
+      width: 390px; /* iPhone 14/15 Pro 寬度 */
+      height: 844px; /* iPhone 14/15 Pro 高度 */
+      background-color: #ffffff;
+      border: 12px solid #1a1a1a;
+      border-radius: 56px; /* 圓角 */
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* 模擬動態島 (Dynamic Island) */
+    .iphone-shell::before {
+      content: '';
+      width: 120px;
+      height: 32px;
+      background: #1a1a1a;
+      border-radius: 20px;
+      position: absolute;
+      top: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 100;
+    }
+
+    /* 螢幕內容區域 */
+    .screen-content {
+      flex-grow: 1;
+      overflow-y: auto;
+      /* 頂部留出狀態列和動態島的空間 */
+      padding-top: 56px;
+      background-color: #f9f9fb; /* iOS 預設的淺灰色背景 */
+    }
+
+    /* 模擬 iOS 底部 Home Indicator */
+    .home-indicator {
+      width: 134px;
+      height: 5px;
+      background-color: #333;
+      border-radius: 100px;
+      position: absolute;
+      bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    /* 模擬 iOS Tab Bar */
+    .ios-tab-bar {
+      background-color: rgba(255, 255, 255, 0.85); /* 模擬毛玻璃效果 */
+      backdrop-filter: blur(10px);
+      border-top: 1px solid #e5e5e5;
+      padding: 8px 16px 0; /* 底部空間留給 Home Indicator */
+      height: 84px;
+    }
+  </style>
+</head>
+<body class="bg-slate-100 p-8 sm:p-12">
+
+<div class="max-w-7xl mx-auto mb-12">
+  <h1 class="text-4xl font-bold text-slate-900 mb-2">健身好夥伴 App</h1>
+  <p class="text-lg text-slate-600">iOS App 原型鳥瞰圖 (iPhone 17 Pro 基準)</p>
+</div>
+
+<!--
+  使用 Grid 佈局來展示所有 App 畫面
+  xl:grid-cols-4 適用於大螢幕展示
+-->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-12">
+
+  <!-- =================================== -->
+  <!-- 畫面 1: Onboarding - 歡迎頁 -->
+  <!-- =================================== -->
+  <section id="screen-01-welcome">
+    <h3 class="text-sm font-semibold text-slate-600 mb-2 text-center">[1] Onboarding: 歡迎頁</h3>
+    <div class="iphone-shell">
+      <!-- 螢幕內容 -->
+      <div class="screen-content flex flex-col justify-between items-center bg-white p-8 pt-24">
+        <div class="text-center">
+
+          <h1 class="text-3xl font-bold text-slate-900 mt-8">歡迎使用 健身好夥伴</h1>
+          <p class="text-lg text-slate-500 mt-3">您的個人化健身夥伴。
+            <br>讓我們開始打造您的專屬計畫。</p>
+        </div>
+
+        <div class="w-full pb-16">
+          <button class="w-full bg-blue-600 text-white font-semibold py-4 rounded-full text-lg shadow-lg hover:bg-blue-700 transition">
+            開始
+          </button>
+        </div>
+      </div>
+      <div class="home-indicator"></div>
+    </div>
+  </section>
+
+  <!-- =================================== -->
+  <!-- 畫面 2: Onboarding - 選擇目標 -->
+  <!-- =================================== -->
+  <section id="screen-02-goal">
+    <h3 class="text-sm font-semibold text-slate-600 mb-2 text-center">[2] Onboarding: 選擇目標</h3>
+    <div class="iphone-shell">
+      <!-- 螢幕內容 -->
+      <div class="screen-content flex flex-col justify-between bg-white p-6 pt-16">
+        <!-- 頂部導覽 (模擬) -->
+        <div class="absolute top-16 left-4">
+          <button class="text-blue-600 text-lg flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 -ml-1">
+              <path fill-rule="evenodd" d="M11.78 5.22a.75.75 0 0 1 0 1.06L8.06 10l3.72 3.72a.75.75 0 1 1-1.06 1.06l-4.25-4.25a.75.75 0 0 1 0-1.06l4.25-4.25a.75.75 0 0 1 1.06 0Z" clip-rule="evenodd" />
+            </svg>
+            返回
+          </button>
+        </div>
+
+        <div class="px-2 mt-12">
+          <p class="text-blue-600 font-semibold">步驟 1 / 3</p>
+          <h1 class="text-3xl font-bold text-slate-900 mt-2">您的主要健身目標？</h1>
+          <p class="text-slate-500 mt-2">這將幫助我們為您量身定制計畫。</p>
+
+          <div class="space-y-4 mt-8">
+            <!-- 選項 1 -->
+            <label class="block w-full border-2 border-slate-200 rounded-2xl p-5 cursor-pointer has-[:checked]:border-blue-600 has-[:checked]:bg-blue-50">
+              <input type="radio" name="goal" class="hidden">
+              <div class="flex items-center">
+                <span class="text-3xl">🔥</span>
+                <div class="ml-4">
+                  <h3 class="text-lg font-semibold text-slate-900">燃燒脂肪</h3>
+                  <p class="text-slate-600">以減脂和提升體能為主。</p>
+                </div>
+              </div>
+            </label>
+            <!-- 選項 2 -->
+            <label class="block w-full border-2 border-blue-600 bg-blue-50 rounded-2xl p-5 cursor-pointer">
+              <input type="radio" name="goal" class="hidden" checked>
+              <div class="flex items-center">
+                <span class="text-3xl">💪</span>
+                <div class="ml-4">
+                  <h3 class="text-lg font-semibold text-slate-900">增強肌力</h3>
+                  <p class="text-slate-600">建立肌肉量與力量。</p>
+                </div>
+              </div>
+            </label>
+            <!-- 選項 3 -->
+            <label class="block w-full border-2 border-slate-200 rounded-2xl p-5 cursor-pointer has-[:checked]:border-blue-600 has-[:checked]:bg-blue-50">
+              <input type="radio" name="goal" class="hidden">
+              <div class="flex items-center">
+                <span class="text-3xl">🤸</span>
+                <div class="ml-4">
+                  <h3 class="text-lg font-semibold text-slate-900">保持健康</h3>
+                  <p class="text-slate-600">維持活動力與身體機能。</p>
+                </div>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <div class="w-full pb-16 px-2">
+          <button class="w-full bg-blue-600 text-white font-semibold py-4 rounded-full text-lg shadow-lg">
+            下一步
+          </button>
+        </div>
+      </div>
+      <div class="home-indicator"></div>
+    </div>
+  </section>
+
+  <!-- =================================== -->
+  <!-- 畫面 3: Onboarding - 身體數據 -->
+  <!-- =================================== -->
+  <section id="screen-03-stats">
+    <h3 class="text-sm font-semibold text-slate-600 mb-2 text-center">[3] Onboarding: 身體數據</h3>
+    <div class="iphone-shell">
+      <!-- 螢幕內容 -->
+      <div class="screen-content flex flex-col justify-between bg-white p-6 pt-16">
+        <div class="absolute top-16 left-4">
+          <button class="text-blue-600 text-lg flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 -ml-1">
+              <path fill-rule="evenodd" d="M11.78 5.22a.75.75 0 0 1 0 1.06L8.06 10l3.72 3.72a.75.75 0 1 1-1.06 1.06l-4.25-4.25a.75.75 0 0 1 0-1.06l4.25-4.25a.75.75 0 0 1 1.06 0Z" clip-rule="evenodd" />
+            </svg>
+            返回
+          </button>
+        </div>
+
+        <div class="px-2 mt-12 flex-1">
+          <p class="text-blue-600 font-semibold">步驟 2 / 3</p>
+          <h1 class="text-3xl font-bold text-slate-900 mt-2">關於您</h1>
+
+          <div class="space-y-6 mt-8">
+            <div>
+              <label class="text-base font-semibold text-slate-800">性別</label>
+              <!-- 模擬 iOS Segmented Control -->
+              <div class="grid grid-cols-2 gap-2 bg-slate-100 p-1 rounded-lg mt-2">
+                <button class="bg-white rounded-md py-2 shadow font-semibold text-blue-600">男性</button>
+                <button class="py-2 font-medium text-slate-600">女性</button>
+              </div>
+            </div>
+
+            <div>
+              <label class="text-base font-semibold text-slate-800">身高</label>
+              <div class="relative mt-2">
+                <input type="text" value="175" class="w-full bg-slate-100 rounded-lg p-4 text-lg text-slate-900 border-2 border-slate-100 focus:border-blue-500 outline-none">
+                <span class="absolute right-4 top-4 text-slate-500">cm</span>
+              </div>
+            </div>
+
+            <div>
+              <label class="text-base font-semibold text-slate-800">體重</label>
+              <div class="relative mt-2">
+                <input type="text" value="70.5" class="w-full bg-slate-100 rounded-lg p-4 text-lg text-slate-900 border-2 border-slate-100 focus:border-blue-500 outline-none">
+                <span class="absolute right-4 top-4 text-slate-500">kg</span>
+              </div>
+            </div>
+
+            <div>
+              <label class="text-base font-semibold text-slate-800">年齡</label>
+              <div class="relative mt-2">
+                <input type="text" value="28" class="w-full bg-slate-100 rounded-lg p-4 text-lg text-slate-900 border-2 border-slate-100 focus:border-blue-500 outline-none">
+                <span class="absolute right-4 top-4 text-slate-500">歲</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="w-full pb-16 px-2">
+          <button class="w-full bg-blue-600 text-white font-semibold py-4 rounded-full text-lg shadow-lg">
+            下一步
+          </button>
+        </div>
+      </div>
+      <div class="home-indicator"></div>
+    </div>
+  </section>
+
+  <!-- =================================== -->
+  <!-- 畫面 4: Onboarding - 經驗與頻率 (★已修改) -->
+  <!-- =================================== -->
+  <section id="screen-04-activity">
+    <h3 class="text-sm font-semibold text-slate-600 mb-2 text-center">[4] Onboarding: 經驗與頻率</h3>
+    <div class="iphone-shell">
+      <!-- 螢幕內容 -->
+      <div class="screen-content flex flex-col justify-between bg-white p-6 pt-16">
+        <div class="absolute top-16 left-4">
+          <button class="text-blue-600 text-lg flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 -ml-1">
+              <path fill-rule="evenodd" d="M11.78 5.22a.75.75 0 0 1 0 1.06L8.06 10l3.72 3.72a.75.75 0 1 1-1.06 1.06l-4.25-4.25a.75.75 0 0 1 0-1.06l4.25-4.25a.75.75 0 0 1 1.06 0Z" clip-rule="evenodd" />
+            </svg>
+            返回
+          </button>
+        </div>
+
+        <div class="px-2 mt-12 flex-1">
+          <p class="text-blue-600 font-semibold">步驟 3 / 3</p>
+          <h1 class="text-3xl font-bold text-slate-900 mt-2">您的健身經驗？</h1>
+          <p class="text-slate-500 mt-2">這將決定您的起始等級。</p>
+
+          <!-- (新) 經驗等級選項 -->
+          <div class="space-y-4 mt-8">
+            <label class="block w-full border-2 border-blue-600 bg-blue-50 rounded-2xl p-5 cursor-pointer">
+              <input type="radio" name="experience" class="hidden" checked>
+              <h3 class="text-lg font-semibold text-slate-900">新手 (剛開始或少於 6 個月)</h3>
+            </label>
+
+            <label class="block w-full border-2 border-slate-200 rounded-2xl p-5 cursor-pointer has-[:checked]:border-blue-600 has-[:checked]:bg-blue-50">
+              <input type="radio" name="experience" class="hidden">
+              <h3 class="text-lg font-semibold text-slate-900">中級 (有 6-18 個月經驗)</h3>
+            </label>
+
+            <label class="block w-full border-2 border-slate-200 rounded-2xl p-5 cursor-pointer has-[:checked]:border-blue-600 has-[:checked]:bg-blue-50">
+              <input type="radio" name="experience" class="hidden">
+              <h3 class="text-lg font-semibold text-slate-900">進階 (18 個月以上)</h3>
+            </label>
+          </div>
+
+          <!-- (新) 頻率標題 -->
+          <h2 class="text-2xl font-bold text-slate-900 mt-10">您平均一週運動幾天？</h2>
+
+          <!-- (新) 頻率選項 (Segmented Control) -->
+          <div class="grid grid-cols-3 gap-2 bg-slate-100 p-1 rounded-lg mt-4">
+            <button class="py-2 font-medium text-slate-600">2 天</button>
+            <button class="bg-white rounded-md py-2 shadow font-semibold text-blue-600">3 天</button>
+            <button class="py-2 font-medium text-slate-600">4+ 天</button>
+          </div>
+        </div>
+
+        <div class="w-full pb-16 px-2">
+          <button class="w-full bg-green-500 text-white font-semibold py-4 rounded-full text-lg shadow-lg">
+            生成我的計畫
+          </button>
+        </div>
+      </div>
+      <div class="home-indicator"></div>
+    </div>
+  </section>
+
+  <!-- =================================== -->
+  <!-- 畫面 5: Loading -->
+  <!-- =================================== -->
+  <section id="screen-05-loading">
+    <h3 class="text-sm font-semibold text-slate-600 mb-2 text-center">[5] 狀態: 計畫生成中</h3>
+    <div class="iphone-shell">
+      <!-- 螢幕內容 -->
+      <div class="screen-content flex flex-col justify-center items-center bg-white p-8">
+        <svg class="animate-spin h-12 w-12 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+        </svg>
+        <h2 class="text-xl font-semibold text-slate-800 mt-6">正在為您打造計畫...</h2>
+        <p class="text-slate-500 mt-2">請稍候片刻</p>
+      </div>
+      <div class="home-indicator"></div>
+    </div>
+  </section>
+
+  <!-- =================================== -->
+  <!-- 畫面 6: 主畫面 - 首頁 (★已修改) -->
+  <!-- =================================== -->
+  <section id="screen-06-home">
+    <h3 class="text-sm font-semibold text-slate-600 mb-2 text-center">[6] 主畫面: 首頁 (帶 Tab Bar)</h3>
+    <div class="iphone-shell">
+      <!-- 螢幕內容 -->
+      <div class="screen-content pt-16">
+        <!-- 模擬 Navigation Large Title -->
+        <div class="px-6 pb-4">
+          <p class="text-slate-500 text-lg">早安, Alex</p>
+          <h1 class="text-4xl font-bold text-slate-900">您的總覽</h1>
+        </div>
+
+        <div class="px-6 space-y-6">
+          <!-- 今日訓練卡片 -->
+          <div class="bg-blue-600 text-white rounded-3xl p-6 shadow-xl shadow-blue-200">
+            <p class="font-semibold text-blue-100">今日訓練</p>
+            <!-- (★) 加入等級標籤 -->
+            <h2 class="text-3xl font-bold mt-1">新手全身訓練 A <span class="text-xl font-medium">(基礎)</span></h2>
+            <p class="text-blue-100 mt-2">5 個動作・約 45 分鐘</p>
+            <button class="w-full bg-white text-blue-600 font-bold py-3 rounded-full text-lg mt-6 shadow-lg">
+              開始訓練
+            </button>
+          </div>
+
+          <!-- 本週進度 -->
+          <div>
+            <h3 class="text-2xl font-bold text-slate-900">本週進度</h3>
+            <div class="mt-3 p-5 bg-white rounded-2xl shadow-sm">
+              <div class="flex justify-between items-center">
+                <p class="font-semibold text-slate-800">已完成 1 / 3 次訓練</p>
+                <span class="text-sm font-bold text-green-600">33%</span>
+              </div>
+              <div class="w-full bg-slate-100 rounded-full h-2.5 mt-3">
+                <div class="bg-green-500 h-2.5 rounded-full" style="width: 33%"></div>
+              </div>
+              <div class="flex justify-between mt-4 text-center">
+                <div class="text-slate-400">
+                  <p class="text-sm">一</p>
+                  <div class="mt-1 w-8 h-8 rounded-full bg-green-500 flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 text-white">
+                      <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd" />
+                    </svg>
+                  </div>
+                </div>
+                <div class="text-slate-800 font-semibold">
+                  <p class="text-sm">二</p>
+                  <div class="mt-1 w-8 h-8 rounded-full bg-blue-100 border-2 border-blue-300"></div>
+                </div>
+                <div class="text-slate-400">
+                  <p class="text-sm">三</p>
+                  <div class="mt-1 w-8 h-8 rounded-full bg-slate-100"></div>
+                </div>
+                <div class="text-slate-800 font-semibold">
+                  <p class="text-sm">四</p>
+                  <div class="mt-1 w-8 h-8 rounded-full bg-blue-100 border-2 border-blue-300"></div>
+                </div>
+                <div class="text-slate-400">
+                  <p class="text-sm">五</p>
+                  <div class="mt-1 w-8 h-8 rounded-full bg-slate-100"></div>
+                </div>
+                <div class="text-slate-400">
+                  <p class="text-sm">六</p>
+                  <div class="mt-1 w-8 h-8 rounded-full bg-slate-100"></div>
+                </div>
+                <div class="text-slate-400">
+                  <p class="text-sm">日</p>
+                  <div class="mt-1 w-8 h-8 rounded-full bg-slate-100"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 探索動作 (到底部) -->
+          <div class="pb-24">
+            <h3 class="text-2xl font-bold text-slate-900">探索動作</h3>
+            <img src="https://images.pexels.com/photos/1552242/pexels-photo-1552242.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&dpr=1"
+                 class="w-full h-32 object-cover rounded-2xl mt-3 shadow-lg" alt="探索動作">
+          </div>
+
+        </div>
+      </div>
+
+      <!-- iOS Tab Bar -->
+      <!-- iOS Tab Bar (★已修改為「計畫」) -->
+      <footer class="ios-tab-bar absolute bottom-0 left-0 right-0">
+        <div class="flex justify-around items-start h-full">
+          <!-- 啟用中 -->
+          <button class="flex flex-col items-center text-blue-600">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-7 h-7">
+              <path d="M11.47 3.841a.75.75 0 0 1 1.06 0l8.69 8.69a.75.75 0 1 0 1.06-1.061l-8.689-8.69a2.25 2.25 0 0 0-3.182 0l-8.69 8.69a.75.75 0 1 0 1.061 1.06l8.69-8.69Z" />
+              <path d="m12 5.432 8.159 8.159c.03.03.06.058.091.086v6.198c0 1.035-.84 1.875-1.875 1.875H15a.75.75 0 0 1-.75-.75v-4.5a.75.75 0 0 0-.75-.75h-3a.75.75 0 0 0-.75.75V21a.75.75 0 0 1-.75.75H5.625a1.875 1.875 0 0 1-1.875-1.875v-6.198a2.29 2.29 0 0 0 .091-.086L12 5.432Z" />
+            </svg>
+            <span class="text-xs font-semibold mt-1">首頁</span>
+          </button>
+          <!-- (新) 計畫 Tab -->
+          <button class="flex flex-col items-center text-slate-400">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5m-9-6h.008v.008H12v-.008ZM12 15h.008v.008H12v-.008ZM9.75 15h.008v.008H9.75v-.008ZM7.5 15h.008v.008H7.5v-.008ZM15 15h.008v.008H15v-.008ZM16.5 15h.008v.008H16.5v-.008ZM9.75 18h.008v.008H9.75v-.008ZM7.5 18h.008v.008H7.5v-.008ZM12 18h.008v.008H12v-.008Z" />
+            </svg>
+            <span class="text-xs font-medium mt-1">計畫</span>
+          </button>
+          <!-- 探索 -->
+          <button class="flex flex-col items-center text-slate-400">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7">
+              <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+            </svg>
+            <span class="text-xs font-medium mt-1">探索</span>
+          </button>
+          <!-- 個人 -->
+          <button class="flex flex-col items-center text-slate-400">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A1.875 1.875 0 0 1 17.624 22H6.376a1.875 1.875 0 0 1-1.875-1.882Z" />
+            </svg>
+            <span class="text-xs font-medium mt-1">個人</span>
+          </button>
+        </div>
+        <div class="home-indicator !bottom-2 !bg-black"></div>
+      </footer>
+    </div>
+  </section>
+
+  <!-- =================================== -->
+  <!-- 畫面 7: 訓練詳情頁 (★已修改) -->
+  <!-- =================================== -->
+  <section id="screen-07-workout-detail">
+    <h3 class="text-sm font-semibold text-slate-600 mb-2 text-center">[7] 流程: 訓練詳情頁</h3>
+    <div class="iphone-shell">
+      <!-- 螢幕內容 -->
+      <div class="screen-content pt-0 bg-white">
+        <!-- 模擬 Nav Bar -->
+        <div class="sticky top-0 bg-white/80 backdrop-blur-md pt-16 px-4 pb-3 flex items-center z-10">
+          <button class="text-blue-600 text-lg flex items-center -ml-2">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-6 h-6">
+              <path fill-rule="evenodd" d="M11.78 5.22a.75.75 0 0 1 0 1.06L8.06 10l3.72 3.72a.75.75 0 1 1-1.06 1.06l-4.25-4.25a.75.75 0 0 1 0-1.06l4.25-4.25a.75.75 0 0 1 1.06 0Z" clip-rule="evenodd" />
+            </svg>
+            <span class="text-lg">首頁</span>
+          </button>
+          <h2 class="text-lg font-semibold mx-auto -translate-x-8">全身訓練 A</h2>
+        </div>
+
+        <!-- 內容區 -->
+        <div class="px-6 pb-32">
+          <img src="https://images.pexels.com/photos/2204196/pexels-photo-2204196.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&dpr=1"
+               class="w-full h-48 object-cover rounded-3xl" alt="訓練主圖">
+          <h1 class="text-3xl font-bold text-slate-900 mt-6">新手全身訓練 A</h1>
+          <!-- (★) 加入等級標籤 -->
+          <div class="flex items-center space-x-4 text-slate-600 mt-3">
+            <span>⏱️ 45 分鐘</span>
+            <span>🔥 320 卡 (估計)</span>
+            <span class="font-semibold text-blue-600 bg-blue-100 px-3 py-1 rounded-full">🏅 基礎等級</span>
+          </div>
+
+          <div class="mt-8">
+            <h3 class="text-xl font-bold text-slate-900 mb-2">訓練動作</h3>
+            <div class="divide-y divide-slate-100 bg-white rounded-2xl overflow-hidden">
+              <!-- 動作 1 -->
+              <div class="flex items-center p-4">
+                <img src="https://placehold.co/64x64/E0F2FE/0C4A6E?text=SQ&font=sans" class="w-16 h-16 rounded-lg" alt="Squat">
+                <div class="ml-4 flex-1">
+                  <h4 class="text-lg font-semibold text-slate-800">深蹲 (Squats)</h4>
+                  <p class="text-slate-500">3 組 x 10 次</p>
+                </div>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 text-slate-400">
+                  <path fill-rule="evenodd" d="M8.22 5.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L11.94 10 8.22 6.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
+                </svg>
+              </div>
+              <!-- 動作 2 -->
+              <div class="flex items-center p-4">
+                <img src="https://placehold.co/64x64/E0F2FE/0C4A6E?text=PU&font=sans" class="w-16 h-16 rounded-lg" alt="Pushup">
+                <div class="ml-4 flex-1">
+                  <h4 class="text-lg font-semibold text-slate-800">伏地挺身 (Pushups)</h4>
+                  <p class="text-slate-500">3 組 x 8 次</p>
+                </div>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 text-slate-400">
+                  <path fill-rule="evenodd" d="M8.22 5.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L11.94 10 8.22 6.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
+                </svg>
+              </div>
+              <!-- 動作 3 -->
+              <div class="flex items-center p-4">
+                <img src="https://placehold.co/64x64/E0F2FE/0C4A6E?text=RW&font=sans" class="w-16 h-16 rounded-lg" alt="Row">
+                <div class="ml-4 flex-1">
+                  <h4 class="text-lg font-semibold text-slate-800">啞鈴划船 (Dumbbell Row)</h4>
+                  <p class="text-slate-500">3 組 x 10 次 (每側)</p>
+                </div>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 text-slate-400">
+                  <path fill-rule="evenodd" d="M8.22 5.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L11.94 10 8.22 6.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
+                </svg>
+              </div>
+              <!-- 動作 4 -->
+              <div class="flex items-center p-4">
+                <img src="https://placehold.co/64x64/E0F2FE/0C4A6E?text=PL&font=sans" class="w-16 h-16 rounded-lg" alt="Plank">
+                <div class="ml-4 flex-1">
+                  <h4 class="text-lg font-semibold text-slate-800">平板支撐 (Plank)</h4>
+                  <p class="text-slate-500">3 組 x 30 秒</p>
+                </div>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 text-slate-400">
+                  <path fill-rule="evenodd" d="M8.22 5.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L11.94 10 8.22 6.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 懸浮開始按鈕 -->
+      <div class="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-white via-white/90 to-transparent">
+        <button class="w-full bg-blue-600 text-white font-semibold py-4 rounded-full text-lg shadow-lg shadow-blue-200">
+          開始訓練 (5 個動作)
+        </button>
+        <div class="home-indicator !bottom-2 !bg-black"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =================================== -->
+  <!-- 畫面 8: 動作教學 (彈窗) -->
+  <!-- =================================== -->
+  <section id="screen-08-exercise-modal">
+    <h3 class="text-sm font-semibold text-slate-600 mb-2 text-center">[8] 流程: 動作教學 (彈窗)</h3>
+    <div class="iphone-shell">
+      <!--
+        這是一個模擬的 Sheet (彈窗)
+        在實際 App 中，它會從底部彈出並覆蓋在 [畫面 7] 之上
+      -->
+      <div class="screen-content pt-0 bg-white flex flex-col">
+        <!-- 彈窗頂部抓柄 -->
+        <div class="w-12 h-1.5 bg-slate-300 rounded-full mx-auto mt-3"></div>
+
+        <div class="px-6 pt-6 flex-1 overflow-y-auto">
+          <h1 class="text-3xl font-bold text-slate-900">深蹲 (Squats)</h1>
+          <p class="text-lg text-slate-500 mt-1">主要肌群：股四頭肌、臀大肌</p>
+
+          <img src="https://www.sportscience.com.tw/data/image/article/db/2b/41/82/b83785607edef3dc57f842a.jpg?v=1615984602"
+               class="w-full h-56 object-cover rounded-2xl mt-6" alt="深蹲教學圖">
+
+          <!-- 模擬 Tab -->
+          <div class="flex border-b border-slate-200 mt-6">
+            <button class="py-3 px-4 text-blue-600 font-semibold border-b-2 border-blue-600">
+              動作指引
+            </button>
+            <button class="py-3 px-4 text-slate-500 font-medium">
+              常見錯誤
+            </button>
+          </div>
+
+          <div class="pt-6 pb-24 space-y-4 text-slate-700 text-lg leading-relaxed">
+            <p>1. 雙腳與肩同寬，腳尖微朝外。</p>
+            <p>2. 抬頭挺胸，核心收緊，背部打直。</p>
+            <p>3. 臀部像坐椅子一樣向後推，同時下蹲，直到大腿與地面平行。</p>
+            <p>4. 過程中保持膝蓋與腳尖方向一致。</p>
+            <p>5. 用臀腿力量發力，站回起始位置。</p>
+          </div>
+        </div>
+
+        <!-- 懸浮關閉按鈕 -->
+        <div class="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-white via-white/90 to-transparent">
+          <button class="w-full bg-slate-200 text-slate-800 font-semibold py-4 rounded-full text-lg">
+            關閉
+          </button>
+          <div class="home-indicator !bottom-2 !bg-black"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =================================== -->
+  <!-- 畫面 9: 訓練中 (播放器) -->
+  <!-- =================================== -->
+  <section id="screen-09-workout-player">
+    <h3 class="text-sm font-semibold text-slate-600 mb-2 text-center">[9] 流程: 訓練中</h3>
+    <div class="iphone-shell bg-black">
+      <!-- 螢幕內容 (深色模式) -->
+      <div class="screen-content pt-16 bg-black text-white flex flex-col justify-between">
+        <!-- 頂部導覽 -->
+        <div class="px-4 flex justify-between items-center">
+          <div class="text-left">
+            <p class="text-lg font-semibold text-blue-400">動作 1 / 5</p>
+            <h2 class="text-3xl font-bold">深蹲</h2>
+          </div>
+          <button class="text-blue-400 text-lg font-medium bg-gray-800 rounded-full px-4 py-2">
+            結束
+          </button>
+        </div>
+
+        <!-- 主要內容：動作圖示 -->
+        <div class="flex-1 flex flex-col justify-center items-center px-6">
+          <img src="https://www.sportscience.com.tw/data/image/article/db/2b/41/82/b83785607edef3dc57f842a.jpg?v=1615984602"
+               class="w-full rounded-2xl object-cover" alt="深蹲教學圖">
+        </div>
+
+        <!-- 組數與次數 -->
+        <div class="px-6 text-center">
+          <div class="flex justify-around items-end">
+            <div>
+              <p class="text-slate-400 text-lg">組數</p>
+              <p class="text-6xl font-bold">1<span class="text-3xl text-slate-300">/3</span></p>
+            </div>
+            <div>
+              <p class="text-slate-400 text-lg">次數</p>
+              <p class="text-6xl font-bold">10</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 底部控制項 -->
+        <div class="px-6 pb-16 pt-8 space-y-4">
+          <button class="w-full bg-green-500 text-white font-bold py-5 rounded-full text-xl shadow-lg">
+            完成一組 (休息 60s)
+          </button>
+          <div class="flex justify-between">
+            <button class="text-slate-300 font-medium py-2 px-4">上一個</button>
+            <button class="text-slate-300 font-medium py-2 px-4">跳過動作</button>
+          </div>
+        </div>
+      </div>
+      <div class="home-indicator !bg-white"></div>
+    </div>
+  </section>
+
+  <!-- =================================== -->
+  <!-- 畫面 10: 訓練完成 -->
+  <!-- =================================== -->
+  <!-- 畫面 10: 訓練完成 (★已修改) -->
+  <!-- =================================== -->
+  <section id="screen-10-workout-complete">
+    <h3 class="text-sm font-semibold text-slate-600 mb-2 text-center">[10] 流程: 訓練完成</h3>
+    <div class="iphone-shell">
+      <!-- 螢幕內容 -->
+      <div class="screen-content flex flex-col justify-between items-center bg-white p-8 pt-24">
+        <!-- ... (祝福語和統計數據) ... -->
+        <div class="flex-1"></div>
+        <div class="text-center">
+          <div class="w-32 h-32 bg-green-500 rounded-full flex items-center justify-center mx-auto shadow-xl shadow-green-200">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-20 h-20 text-white">
+              <path fill-rule="evenodd" d="M19.916 4.626a.75.75 0 0 1 .208 1.04l-9 13.5a.75.75 0 0 1-1.154.114l-6-6a.75.75 0 0 1 1.06-1.06l5.353 5.353 8.493-12.74a.75.75 0 0 1 1.04-.207Z" clip-rule="evenodd" />
+            </svg>
+          </div>
+          <h1 class="text-3xl font-bold text-slate-900 mt-8">訓練完成！</h1>
+          <p class="text-lg text-slate-500 mt-3">做得好，Alex！繼續保持。</p>
+
+          <div class="flex justify-around mt-10 w-full max-w-xs mx-auto">
+            <div class="text-center">
+              <p class="text-slate-500">總時長</p>
+              <p class="text-3xl font-bold text-slate-900">42:15</p>
+            </div>
+            <div class="border-l border-slate-200"></div>
+            <div class="text-center">
+              <p class="text-slate-500">總消耗 (估)</p>
+              <p class="text-3xl font-bold text-slate-900">315</p>
+              <p class="text-sm text-slate-500 -mt-1">大卡</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="w-full pb-16 space-y-3">
+          <button class="w-full bg-blue-600 text-white font-semibold py-4 rounded-full text-lg shadow-lg">
+            返回首頁
+          </button>
+        </div>
+      </div>
+      <div class="home-indicator"></div>
+    </div>
+  </section>
+
+
+  <!-- =================================== -->
+  <!-- 畫面 11: 探索 (動作庫) -->
+  <!-- =================================== -->
+  <!-- 畫面 11: 探索 (動作庫) (★重大修改) -->
+  <!-- =================================== -->
+  <section id="screen-11-explore">
+    <h3 class="text-sm font-semibold text-slate-600 mb-2 text-center">[11] 主畫面: 探索 (UGC)</h3>
+    <div class="iphone-shell">
+      <!-- 螢幕內容 -->
+      <div class="screen-content pt-16">
+        <!-- 模擬 Navigation Large Title -->
+        <div class="px-6 pb-4 flex justify-between items-center">
+          <h1 class="text-4xl font-bold text-slate-900">探索</h1>
+          <!-- (新) 新增動作按鈕 -->
+          <button class="text-blue-600">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-8 h-8">
+              <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25ZM12.75 9v3h3v1.5h-3v3h-1.5v-3h-3V12h3V9h1.5Z" clip-rule="evenodd" />
+            </svg>
+          </button>
+        </div>
+
+        <div class="px-6 space-y-6 pb-24">
+          <!-- 搜尋框 -->
+          <div class="relative">
+            <input type="text" placeholder="搜尋動作..." class="w-full bg-slate-100 rounded-lg p-3 pl-10 text-lg border-2 border-slate-100 focus:border-blue-500 outline-none">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 text-slate-400 absolute left-3 top-4">
+              <path fill-rule="evenodd" d="M9 3.5a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11ZM2 9a7 7 0 1 1 12.452 4.391l3.328 3.329a.75.75 0 1 1-1.06 1.06l-3.329-3.328A7 7 0 0 1 2 9Z" clip-rule="evenodd" />
+            </svg>
+          </div>
+
+          <!-- (新) Segmented Control -->
+          <div class="grid grid-cols-2 gap-2 bg-slate-100 p-1 rounded-lg">
+            <button class="bg-white rounded-md py-2 shadow font-semibold text-blue-600">官方動作庫</button>
+            <button class="py-2 font-medium text-slate-600">我的自訂</button>
+          </div>
+
+          <!-- 按部位分類 (官方) -->
+          <div>
+            <h3 class="text-2xl font-bold text-slate-900">按部位分類</h3>
+            <div class="grid grid-cols-2 gap-4 mt-4">
+              <div class="relative rounded-2xl overflow-hidden shadow-lg h-28">
+                <img src="https://images.pexels.com/photos/3837781/pexels-photo-3837781.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&dpr=1" class="w-full h-full object-cover" alt="胸部">
+                <div class="absolute inset-0 bg-black/40 flex items-end p-3">
+                  <h4 class="text-white text-lg font-bold">胸部</h4>
+                </div>
+              </div>
+              <div class="relative rounded-2xl overflow-hidden shadow-lg h-28">
+                <img src="https://www.movewell-fitness.com.tw/webfile/blog_img/b20250630163900.png" class="w-full h-full object-cover" alt="背部">
+                <div class="absolute inset-0 bg-black/40 flex items-end p-3">
+                  <h4 class="text-white text-lg font-bold">背部</h4>
+                </div>
+              </div>
+              <div class="relative rounded-2xl overflow-hidden shadow-lg h-28">
+                <img src="https://images.pexels.com/photos/2261477/pexels-photo-2261477.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&dpr=1" class="w-full h-full object-cover" alt="腿部">
+                <div class="absolute inset-0 bg-black/40 flex items-end p-3">
+                  <h4 class="text-white text-lg font-bold">腿部</h4>
+                </div>
+              </div>
+              <div class="relative rounded-2xl overflow-hidden shadow-lg h-28">
+                <img src="https://images.pexels.com/photos/1431282/pexels-photo-1431282.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&dpr=1" class="w-full h-full object-cover" alt="手臂">
+                <div class="absolute inset-0 bg-black/40 flex items-end p-3">
+                  <h4 class="text-white text-lg font-bold">手臂</h4>
+                </div>
+              </div>
+              <!-- ... 更多分類 ... -->
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- iOS Tab Bar (★已修改為「計畫」) -->
+      <footer class="ios-tab-bar absolute bottom-0 left-0 right-0">
+        <div class="flex justify-around items-start h-full">
+          <button class="flex flex-col items-center text-slate-400">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7">
+              <path stroke-linecap="round" stroke-linejoin="round" d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
+            </svg>
+            <span class="text-xs font-medium mt-1">首頁</span>
+          </button>
+          <button class="flex flex-col items-center text-slate-400">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5m-9-6h.008v.008H12v-.008ZM12 15h.008v.008H12v-.008ZM9.75 15h.008v.008H9.75v-.008ZM7.5 15h.008v.008H7.5v-.008ZM15 15h.008v.008H15v-.008ZM16.5 15h.008v.008H16.5v-.008ZM9.75 18h.008v.008H9.75v-.008ZM7.5 18h.008v.008H7.5v-.008ZM12 18h.008v.008H12v-.008Z" />
+            </svg>
+            <span class="text-xs font-medium mt-1">計畫</span>
+          </button>
+          <button class="flex flex-col items-center text-blue-600">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-7 h-7">
+              <path fill-rule="evenodd" d="M10.5 3.75a6.75 6.75 0 1 0 0 13.5 6.75 6.75 0 0 0 0-13.5ZM2.25 10.5a8.25 8.25 0 1 1 14.59 5.28l4.69 4.69a.75.75 0 1 1-1.06 1.06l-4.69-4.69A8.25 8.25 0 0 1 2.25 10.5Z" clip-rule="evenodd" />
+            </svg>
+            <span class="text-xs font-semibold mt-1">探索</span>
+          </button>
+          <button class="flex flex-col items-center text-slate-400">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-7 h-7">
+              <path fill-rule="evenodd" d="M18.685 19.097A9.723 9.723 0 0 0 21.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 0 0 3.065 7.097A9.716 9.716 0 0 0 12 21.75a9.716 9.716 0 0 0 6.685-2.653Zm-12.54-1.285A7.486 7.486 0 0 1 12 15a7.486 7.486 0 0 1 5.855 2.812A8.224 8.224 0 0 1 12 20.25a8.224 8.224 0 0 1-5.855-2.438ZM15.75 9a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z" clip-rule="evenodd" />
+            </svg>
+            <span class="text-xs font-semibold mt-1">個人</span>
+          </button>
+      </footer>
+    </div>
+  </section>
+
+  <!-- =================================== -->
+  <!-- 畫面 12: 動作列表 (胸部) -->
+  <!-- =================================== -->
+  <section id="screen-12-exercise-list">
+    <h3 class="text-sm font-semibold text-slate-600 mb-2 text-center">[12] 流程: 動作列表</h3>
+    <div class="iphone-shell">
+      <!-- 螢幕內容 -->
+      <div class="screen-content pt-0 bg-white">
+        <!-- 模擬 Nav Bar -->
+        <div class="sticky top-0 bg-white/80 backdrop-blur-md pt-16 px-4 pb-3 flex items-center z-10">
+          <button class="text-blue-600 text-lg flex items-center -ml-2">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-6 h-6">
+              <path fill-rule="evenodd" d="M11.78 5.22a.75.75 0 0 1 0 1.06L8.06 10l3.72 3.72a.75.75 0 1 1-1.06 1.06l-4.25-4.25a.75.75 0 0 1 0-1.06l4.25-4.25a.75.75 0 0 1 1.06 0Z" clip-rule="evenodd" />
+            </svg>
+            <span class="text-lg">探索</span>
+          </button>
+          <h2 class="text-lg font-semibold mx-auto -translate-x-8">胸部</h2>
+        </div>
+
+        <!-- 內容區 -->
+        <div class="px-6 pb-24">
+          <p class="text-slate-600">共 12 個動作</p>
+
+          <div class="mt-4 divide-y divide-slate-100">
+            <!-- 動作 1 -->
+            <div class="flex items-center py-4">
+              <img src="https://placehold.co/64x64/E0F2FE/0C4A6E?text=PU&font=sans" class="w-16 h-16 rounded-lg" alt="Pushup">
+              <div class="ml-4 flex-1">
+                <h4 class="text-lg font-semibold text-slate-800">伏地挺身 (Pushups)</h4>
+                <p class="text-slate-500">徒手</p>
+              </div>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 text-slate-400">
+                <path fill-rule="evenodd" d="M8.22 5.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L11.94 10 8.22 6.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
+              </svg>
+            </div>
+            <!-- 動作 2 -->
+            <div class="flex items-center py-4">
+              <img src="https://placehold.co/64x64/E0F2FE/0C4A6E?text=BP&font=sans" class="w-16 h-16 rounded-lg" alt="Bench Press">
+              <div class="ml-4 flex-1">
+                <h4 class="text-lg font-semibold text-slate-800">啞鈴臥推 (Dumbbell Press)</h4>
+                <p class="text-slate-500">啞鈴</p>
+              </div>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 text-slate-400">
+                <path fill-rule="evenodd" d="M8.22 5.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L11.94 10 8.22 6.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
+              </svg>
+            </div>
+            <!-- 動作 3 -->
+            <div class="flex items-center py-4">
+              <img src="https://placehold.co/64x64/E0F2FE/0C4A6E?text=FL&font=sans" class="w-16 h-16 rounded-lg" alt="Fly">
+              <div class="ml-4 flex-1">
+                <h4 class="text-lg font-semibold text-slate-800">啞鈴飛鳥 (Dumbbell Fly)</h4>
+                <p class="text-slate-500">啞鈴</p>
+              </div>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 text-slate-400">
+                <path fill-rule="evenodd" d="M8.22 5.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L11.94 10 8.22 6.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- 此頁面應繼承 Tab Bar，但在 Nav Stack 中時會被隱藏，故此處不顯示 -->
+    </div>
+  </section>
+
+  <!-- =================================== -->
+  <!-- 畫面 13: 個人資料 (Tab) (★已修改) -->
+  <!-- =================================== -->
+  <section id="screen-13-profile">
+    <h3 class="text-sm font-semibold text-slate-600 mb-2 text-center">[13] 主畫面: 個人 (Tab)</h3>
+    <div class="iphone-shell">
+      <!-- 螢幕內容 -->
+      <div class="screen-content pt-16">
+        <!-- 模擬 Navigation Large Title -->
+        <div class="px-6 pb-6 border-b border-slate-200">
+          <h1 class="text-4xl font-bold text-slate-900">個人資料</h1>
+        </div>
+
+        <div class="px-6 space-y-8 pb-24">
+          <!-- 個人資訊 -->
+          <div class="flex items-center pt-6">
+            <img src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=120&h=120&dpr=1"
+                 class="w-20 h-20 rounded-full object-cover" alt="Profile Picture">
+            <div class="ml-4">
+              <h2 class="text-2xl font-bold text-slate-900">Alex Chen</h2>
+              <!-- (★) 加入等級狀態 -->
+              <p class="text-lg text-slate-500">增肌計畫・基礎 (第 1 週)</p>
+            </div>
+          </div>
+
+          <!-- 統計數據 -->
+          <div class="grid grid-cols-2 gap-4">
+            <div class="bg-white p-4 rounded-2xl shadow-sm">
+              <p class="text-sm text-slate-500">總訓練次數</p>
+              <p class="text-3xl font-bold text-slate-900">1</p>
+            </div>
+            <div class="bg-white p-4 rounded-2xl shadow-sm">
+              <p class="text-sm text-slate-500">目前連續天數</p>
+              <p class="text-3xl font-bold text-slate-900">1</p>
+            </div>
+          </div>
+
+          <!-- 列表 -->
+          <div class="bg-white rounded-2xl shadow-sm overflow-hidden">
+            <ul class="divide-y divide-slate-100">
+              <li class="flex justify-between items-center p-4">
+                <!-- (★) 調整為更合適的選項 -->
+                <div class="flex items-center">
+                  <span class="text-yellow-500">⭐</span>
+                  <span class="text-lg text-slate-800 ml-3">已完成計畫</span>
+                </div>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 text-slate-400">
+                  <path fill-rule="evenodd" d="M8.22 5.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L11.94 10 8.22 6.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
+                </svg>
+              </li>
+              <li class="flex justify-between items-center p-4">
+                <div class="flex items-center">
+                  <span class="text-blue-500">🎯</span>
+                  <span class="text-lg text-slate-800 ml-3">我的目標</span>
+                </div>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 text-slate-400">
+                  <path fill-rule="evenodd" d="M8.22 5.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L11.94 10 8.22 6.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
+                </svg>
+              </li>
+              <li class="flex justify-between items-center p-4">
+                <div class="flex items-center">
+                  <span class="text-green-500">⚙️</span>
+                  <span class="text-lg text-slate-800 ml-3">設定</span>
+                </div>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 text-slate-400">
+                  <path fill-rule="evenodd" d="M8.22 5.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L11.94 10 8.22 6.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
+                </svg>
+              </li>
+            </ul>
+          </div>
+
+          <!-- 登出按鈕 -->
+          <div class="bg-white rounded-2xl shadow-sm overflow-hidden">
+            <button class="w-full text-lg text-red-500 font-medium p-4 text-center">
+              登出
+            </button>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- iOS Tab Bar -->
+      <!-- iOS Tab Bar (★已修改為「計畫」) -->
+      <footer class="ios-tab-bar absolute bottom-0 left-0 right-0">
+        <div class="flex justify-around items-start h-full">
+          <button class="flex flex-col items-center text-slate-400">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7">
+              <path stroke-linecap="round" stroke-linejoin="round" d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
+            </svg>
+            <span class="text-xs font-medium mt-1">首頁</span>
+          </button>
+          <button class="flex flex-col items-center text-slate-400">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5m-9-6h.008v.008H12v-.008ZM12 15h.008v.008H12v-.008ZM9.75 15h.008v.008H9.75v-.008ZM7.5 15h.008v.008H7.5v-.008ZM15 15h.008v.008H15v-.008ZM16.5 15h.008v.008H16.5v-.008ZM9.75 18h.008v.008H9.75v-.008ZM7.5 18h.008v.008H7.5v-.008ZM12 18h.008v.008H12v-.008Z" />
+            </svg>
+            <span class="text-xs font-medium mt-1">計畫</span>
+          </button>
+          <button class="flex flex-col items-center text-slate-400">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7">
+              <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+            </svg>
+            <span class="text-xs font-medium mt-1">探索</span>
+          </button>
+          <button class="flex flex-col items-center text-blue-600">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-7 h-7">
+              <path fill-rule="evenodd" d="M18.685 19.097A9.723 9.723 0 0 0 21.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 0 0 3.065 7.097A9.716 9.716 0 0 0 12 21.75a9.716 9.716 0 0 0 6.685-2.653Zm-12.54-1.285A7.486 7.486 0 0 1 12 15a7.486 7.486 0 0 1 5.855 2.812A8.224 8.224 0 0 1 12 20.25a8.224 8.224 0 0 1-5.855-2.438ZM15.75 9a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z" clip-rule="evenodd" />
+            </svg>
+            <span class="text-xs font-semibold mt-1">個人</span>
+          </button>
+        </div>
+        <div class="home-indicator !bottom-2 !bg-black"></div>
+      </footer>
+    </div>
+  </section>
+
+
+<!-- =================================== -->
+<!-- (★新) 畫面 14: 晉升提示 (彈窗) -->
+<!-- =================================== -->
+<section id="screen-14-level-up">
+  <h3 class="text-sm font-semibold text-slate-600 mb-2 text-center">[14] 流程: 晉升提示 (彈窗)</h3>
+  <div class="iphone-shell">
+    <!-- 螢幕內容 (模擬 Modal) -->
+    <div class="screen-content flex flex-col justify-between items-center bg-white p-8 pt-24">
+      <!-- 使用 flex-1 來推擠內容到中間 -->
+      <div class="flex-1"></div>
+      <div class="text-center">
+        <div class="w-32 h-32 bg-blue-600 rounded-full flex items-center justify-center mx-auto shadow-xl shadow-blue-200">
+          <!-- (★) 乾淨的 SVG 圖示 -->
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-20 h-20 text-white">
+            <path fill-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.386l-4.11 3.991 1.257 5.277c.268 1.121-.954 2.122-1.943 1.543L12 18.347l-4.617 2.99c-.989.58-2.211-.422-1.943-1.543l1.257-5.277-4.11-3.991c-.887-.841-.415-2.293.749-2.386l5.404-.434 2.082-5.006Z" clip-rule="evenodd" />
+          </svg>
+        </div>
+        <h1 class="text-3xl font-bold text-slate-900 mt-8">恭喜！</h1>
+        <p class="text-lg text-slate-500 mt-3">您已完成「基礎增肌計畫」！
+          <br>您的努力令人驚豔。</p>
+
+        <div class="mt-10 w-full max-w-xs mx-auto text-left bg-slate-100 p-4 rounded-xl">
+          <p class="text-slate-500">下一個挑戰：</p>
+          <p class="text-xl font-bold text-slate-900">中級增肌計畫 (中級)</p>
+          <p class="text-sm text-slate-600">更強的挑戰，更好的效果。</p>
+        </div>
+      </div>
+
+      <!-- 使用 flex-1 和 pt-8 來定位按鈕 -->
+      <div class="w-full pb-16 space-y-3 flex-1 flex flex-col justify-end pt-8">
+        <button class="w-full bg-blue-600 text-white font-semibold py-4 rounded-full text-lg shadow-lg">
+          開始新挑戰
+        </button>
+        <button class="w-full bg-transparent text-slate-500 font-medium py-3 rounded-full text-lg">
+          稍後再說
+        </button>
+      </div>
+    </div>
+    <div class="home-indicator"></div>
+  </div>
+</section>
+
+<!-- (★新) 畫面 15: 社群動態 (Tab) -->
+<!-- =================================== -->
+<!-- (取代舊的 15 & 16) -->
+<!-- =================================== -->
+  <section id="screen-15-create-exercise">
+    <h3 class="text-sm font-semibold text-slate-600 mb-2 text-center">[15] (新) 流程: 建立新動作 (Modal)</h3>
+    <div class="iphone-shell">
+      <!-- 螢幕內容 (模擬 Modal) -->
+      <div class="screen-content pt-0 bg-white flex flex-col">
+        <!-- 模擬 Nav Bar -->
+        <div class="sticky top-0 bg-white/80 backdrop-blur-md pt-16 px-4 pb-3 flex items-center justify-between z-10 border-b border-slate-200">
+          <button class="text-blue-600 text-lg">
+            取消
+          </button>
+          <h2 class="text-lg font-semibold">建立新動作</h2>
+          <button class="text-blue-600 text-lg font-bold">
+            儲存
+          </button>
+        </div>
+
+        <div class="px-6 pt-6 overflow-y-auto">
+          <div class="space-y-6">
+            <!-- 動作名稱 -->
+            <div>
+              <label class="text-base font-semibold text-slate-800">動作名稱</label>
+              <div class="relative mt-2">
+                <input type="text" placeholder="例如：六角槓硬舉" class="w-full bg-slate-100 rounded-lg p-4 text-lg text-slate-900 border-2 border-slate-100 focus:border-blue-500 outline-none">
+              </div>
+            </div>
+
+            <!-- 目標部位 -->
+            <div>
+              <label class="text-base font-semibold text-slate-800">主要目標部位</label>
+              <div class="relative mt-2">
+                <!-- 模擬 iOS 選擇器按鈕 -->
+                <button class="w-full bg-slate-100 rounded-lg p-4 text-lg text-slate-900 text-left flex justify-between items-center">
+                  <span>腿部</span>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 text-slate-400">
+                    <path fill-rule="evenodd" d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <!-- 動作圖示/影片 (可選) -->
+            <div>
+              <label class="text-base font-semibold text-slate-800">動作教學 (可選)</label>
+              <div class="mt-2 w-full h-40 border-2 border-dashed border-slate-300 rounded-lg flex flex-col justify-center items-center text-slate-500">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-10 h-10">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
+                </svg>
+                <span class="mt-2 font-medium">上傳圖片或影片</span>
+              </div>
+            </div>
+
+            <!-- 個人筆記 -->
+            <div>
+              <label class="text-base font-semibold text-slate-800">個人筆記 (可選)</label>
+              <div class="relative mt-2">
+                <textarea class="w-full bg-slate-100 rounded-lg p-4 text-lg text-slate-900 border-2 border-slate-100 focus:border-blue-500 outline-none" rows="5" placeholder="例如：注意離心收縮、感受臀部發力..."></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="home-indicator"></div>
+    </div>
+  </section>
+
+</div> <!-- (★) 這是移到正確位置的結尾標籤 -->
+
+</body>
+</html>
