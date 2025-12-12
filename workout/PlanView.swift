@@ -29,6 +29,9 @@ struct PlanView: View {
             }
             .navigationTitle("計畫")
             .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    EditButton()
+                }
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button(action: {
                         showingCreateWorkoutPlanView.toggle()

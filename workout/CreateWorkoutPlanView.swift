@@ -6,21 +6,8 @@ struct CreateWorkoutPlanView: View {
     @EnvironmentObject var customExerciseManager: CustomExerciseManager
     
     @State private var planName: String = ""
-    @State private var selectedExercises: [Exercise] = []
-    @State private var searchText: String = ""
+    @State private var selectedExercises: [WorkoutExercise] = []
     @State private var showingAddExercise = false
-    
-    private var allExercises: [Exercise] {
-        ExerciseData.allExercises + customExerciseManager.customExercises
-    }
-    
-    private var filteredExercises: [Exercise] {
-        if searchText.isEmpty {
-            return allExercises
-        } else {
-            return allExercises.filter { $0.name.localizedCaseInsensitiveContains(searchText) }
-        }
-    }
     
     var body: some View {
         NavigationView {
@@ -31,8 +18,12 @@ struct CreateWorkoutPlanView: View {
                     }
                     
                     Section(header: Text("已選動作")) {
-                        ForEach(selectedExercises) { exercise in
-                            Text(exercise.name)
+                        ForEach($selectedExercises) { $workoutExercise in
+                            HStack {
+                                Text(workoutExercise.exercise.name)
+                                Spacer()
+                                Stepper("\(workoutExercise.sets) 組", value: $workoutExercise.sets, in: 1...20)
+                            }
                         }
                         .onMove(perform: move)
                         
@@ -65,11 +56,19 @@ struct CreateWorkoutPlanView: View {
     }
     
     private func savePlan() {
+        let setTime: TimeInterval = 30 // seconds
+        let restTime: TimeInterval = 60 // seconds
+        let caloriesPerSet: Double = 5 // calories
+
+        let totalSets = selectedExercises.reduce(0) { $0 + $1.sets }
+        let totalDuration = TimeInterval(totalSets) * (setTime + restTime)
+        let totalCalories = Double(totalSets) * caloriesPerSet
+
         let newWorkout = Workout(
             name: planName,
-            description: "", // Or some default
-            duration: 0, // Will be calculated
-            calories: 0, // Will be calculated
+            description: "自訂訓練計畫",
+            duration: totalDuration,
+            calories: totalCalories,
             level: "自訂",
             exercises: selectedExercises
         )
@@ -80,7 +79,7 @@ struct CreateWorkoutPlanView: View {
 struct AddExerciseToPlanView: View {
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var customExerciseManager: CustomExerciseManager
-    @Binding var selectedExercises: [Exercise]
+    @Binding var selectedExercises: [WorkoutExercise]
     
     @State private var searchText: String = ""
     
@@ -102,8 +101,10 @@ struct AddExerciseToPlanView: View {
                 SearchBar(text: $searchText)
                 List(filteredExercises) { exercise in
                     Button(action: {
-                        if !selectedExercises.contains(where: { $0.id == exercise.id }) {
-                            selectedExercises.append(exercise)
+                        if !selectedExercises.contains(where: { $0.exercise.id == exercise.id }) {
+                            let workoutExercise = WorkoutExercise(exercise: exercise, sets: exercise.sets)
+                            selectedExercises.append(workoutExercise)
+                            dismiss()
                         }
                     }) {
                         Text(exercise.name)
@@ -160,7 +161,7 @@ struct CreateWorkoutPlanView_Previews: PreviewProvider {
 }
 
 struct AddExerciseToPlanView_Previews: PreviewProvider {
-    @State static var exercises: [Exercise] = []
+    @State static var exercises: [WorkoutExercise] = []
     
     static var previews: some View {
         AddExerciseToPlanView(selectedExercises: $exercises)

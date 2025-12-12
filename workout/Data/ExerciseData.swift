@@ -227,7 +227,7 @@ struct ExerciseData {
         duration: 45 * 60,
         calories: 320,
         level: "基礎",
-        exercises: getExercises(by: ["深蹲 (Squats)", "伏地挺身 (Pushups)", "啞鈴划船 (Dumbbell Row)", "平板支撐 (Plank)"])
+        exercises: getExercises(by: ["深蹲 (Squats)", "伏地挺身 (Pushups)", "啞鈴划船 (Dumbbell Row)", "平板支撐 (Plank)"]).map { WorkoutExercise(exercise: $0, sets: $0.sets) }
     )
     
     static let intermediateWorkout = Workout(
@@ -236,7 +236,7 @@ struct ExerciseData {
         duration: 60 * 60,
         calories: 450,
         level: "中級",
-        exercises: getExercises(by: ["硬舉 (Deadlifts)", "臥推 (Bench Press)", "引體向上 (Pull-ups)", "肩推 (Overhead Press)", "划船 (Barbell Row)", "棒式 (Plank)"])
+        exercises: getExercises(by: ["硬舉 (Deadlifts)", "臥推 (Bench Press)", "引體向上 (Pull-ups)", "肩推 (Overhead Press)", "划船 (Barbell Row)", "棒式 (Plank)"]).map { WorkoutExercise(exercise: $0, sets: $0.sets) }
     )
     
     static let advancedWorkout = Workout(
@@ -245,6 +245,6 @@ struct ExerciseData {
         duration: 75 * 60,
         calories: 600,
         level: "進階",
-        exercises: getExercises(by: ["前蹲舉 (Front Squats)", "上斜臥推 (Incline Press)", "爆發上膊 (Power Cleans)", "羅馬尼亞硬舉 (Romanian Deadlifts)", "雙槓撐體 (Dips)", "農夫走路 (Farmer's Walk)", "壺鈴擺盪 (Kettlebell Swings)"])
+        exercises: getExercises(by: ["前蹲舉 (Front Squats)", "上斜臥推 (Incline Press)", "爆發上膊 (Power Cleans)", "羅馬尼亞硬舉 (Romanian Deadlifts)", "雙槓撐體 (Dips)", "農夫走路 (Farmer's Walk)", "壺鈴擺盪 (Kettlebell Swings)"]).map { WorkoutExercise(exercise: $0, sets: $0.sets) }
     )
 }

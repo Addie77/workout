@@ -154,6 +154,7 @@ struct LogoutButton: View {
     @Binding var isOnboardingComplete: Bool
     @EnvironmentObject var userData: UserData
     @EnvironmentObject var customExerciseManager: CustomExerciseManager
+    @EnvironmentObject var workoutManager: WorkoutManager
     @State private var showingDeleteAccountAlert = false
 
     var body: some View {
@@ -172,6 +173,7 @@ struct LogoutButton: View {
             Button("刪除", role: .destructive) {
                 userData.deleteAccount()
                 customExerciseManager.deleteAllExercises()
+                workoutManager.deleteAllWorkouts()
                 isOnboardingComplete = false
             }
             Button("取消", role: .cancel) {}
@@ -185,4 +187,5 @@ struct LogoutButton: View {
     ProfileView(isOnboardingComplete: .constant(true))
         .environmentObject(CustomExerciseManager())
         .environmentObject(UserData())
+        .environmentObject(WorkoutManager())
 }

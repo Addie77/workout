@@ -24,6 +24,6 @@ struct ContentView: View {
 #Preview {
     ContentView()
         .environmentObject(UserData())
-    
-    
+        .environmentObject(WorkoutManager())
+        .environmentObject(CustomExerciseManager())
 }

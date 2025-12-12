@@ -20,6 +20,11 @@ class WorkoutManager: ObservableObject {
         workouts.remove(atOffsets: offsets)
         saveWorkouts()
     }
+
+    func deleteAllWorkouts() {
+        workouts.removeAll()
+        UserDefaults.standard.removeObject(forKey: workoutsKey)
+    }
     
     private func saveWorkouts() {
         if let encoded = try? JSONEncoder().encode(workouts) {

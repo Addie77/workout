@@ -50,12 +50,12 @@ struct WorkoutDetailView: View {
                     .padding(.top, 24)
 
                 VStack(spacing: 16) {
-                    ForEach(workout.exercises) { exercise in
-                        Button(action: { selectedExercise = exercise }) {
+                    ForEach(workout.exercises) { workoutExercise in
+                        Button(action: { selectedExercise = workoutExercise.exercise }) {
                             ExerciseRow(
-                                image: String(exercise.name.prefix(2)),
-                                name: exercise.name,
-                                reps: "\(exercise.sets) 組 x \(exercise.reps)"
+                                image: String(workoutExercise.exercise.name.prefix(2)),
+                                name: workoutExercise.exercise.name,
+                                reps: "\(workoutExercise.sets) 組 x \(workoutExercise.exercise.reps)"
                             )
                         }
                     }

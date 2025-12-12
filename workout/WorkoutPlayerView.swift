@@ -13,8 +13,12 @@ struct WorkoutPlayerView: View {
     @State private var currentExerciseIndex: Int = 0
     @State private var currentSet: Int = 1
 
-    var currentExercise: Exercise {
+    var currentWorkoutExercise: WorkoutExercise {
         workout.exercises[currentExerciseIndex]
+    }
+    
+    var currentExercise: Exercise {
+        currentWorkoutExercise.exercise
     }
 
     var body: some View {
@@ -46,7 +50,7 @@ struct WorkoutPlayerView: View {
                 .padding()
 
                 // Image
-                Image("exercise-detail-banner") // Placeholder, ideally dynamic per exercise
+                Image(currentExercise.img)
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .cornerRadius(20)
@@ -60,7 +64,7 @@ struct WorkoutPlayerView: View {
                         Text("組數")
                             .font(.title)
                             .foregroundColor(.gray)
-                        Text("\(currentSet)/\(currentExercise.sets)")
+                        Text("\(currentSet)/\(currentWorkoutExercise.sets)")
                             .font(.system(size: 60, weight: .bold))
                             .foregroundColor(.white)
                     }
@@ -79,7 +83,7 @@ struct WorkoutPlayerView: View {
                 // Controls
                 VStack(spacing: 16) {
                     Button(action: {
-                        if currentSet < currentExercise.sets {
+                        if currentSet < currentWorkoutExercise.sets {
                             currentSet += 1
                         } else {
                             // Last set of current exercise
@@ -101,6 +105,7 @@ struct WorkoutPlayerView: View {
                             .foregroundColor(.white)
                             .cornerRadius(20)
                     }
+
 
                     HStack {
                         Button("上一個") {
