@@ -60,23 +60,15 @@ struct ProfileHeaderView: View {
     @EnvironmentObject var userData: UserData
 
     var body: some View {
-        HStack(spacing: 20) {
-            Image("profile-pic")
-                .resizable()
-                .aspectRatio(contentMode: .fill)
-                .frame(width: 80, height: 80)
-                .clipShape(Circle())
-            
-            VStack(alignment: .leading) {
-                Text(userData.userProfile?.name ?? "User")
-                    .font(.title)
-                    .fontWeight(.bold)
-                Text("增肌計畫・基礎 (第 1 週)")
-                    .font(.subheadline)
-                    .foregroundColor(.gray)
-            }
-            Spacer()
-        }
+                VStack(alignment: .leading) {
+                    Text(userData.userProfile?.name ?? "User")
+                        .font(.title)
+                        .fontWeight(.bold)
+                    Text("增肌計畫・基礎 (第 1 週)")
+                        .font(.subheadline)
+                        .foregroundColor(.gray)
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
     }
 }
 
@@ -120,7 +112,7 @@ struct OptionsListView: View {
                 OptionRow(title: "我的目標", icon: "🎯", iconColor: .blue)
             }
             Divider()
-            NavigationLink(destination: Text("設定")) {
+            NavigationLink(destination: SettingsView()) {
                 OptionRow(title: "設定", icon: "⚙️", iconColor: .green)
             }
         }
