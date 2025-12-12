@@ -53,6 +53,22 @@ class UserData: ObservableObject {
             print("❌ Failed to save user profile: \(error)")
         }
     }
+
+    func updateAndSaveProfile() {
+        guard let profile = self.userProfile else {
+            print("⚠️ Attempted to update a nil profile.")
+            return
+        }
+        
+        do {
+            let encoded = try JSONEncoder().encode(profile)
+            UserDefaults.standard.set(encoded, forKey: userProfileKey)
+            print("✅ User profile updated and saved successfully: \(profile)")
+        } catch {
+            print("❌ Failed to save updated user profile: \(error)")
+        }
+    }
+
     
     func loadProfile() {
         guard let data = UserDefaults.standard.data(forKey: userProfileKey) else {
