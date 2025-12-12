@@ -9,7 +9,6 @@ import SwiftUI
 
 struct MainTabView: View {
     @Binding var isOnboardingComplete: Bool
-    @StateObject private var customExerciseManager = CustomExerciseManager()
 
     var body: some View {
         TabView {
@@ -18,7 +17,7 @@ struct MainTabView: View {
                     Label("首頁", systemImage: "house.fill")
                 }
 
-            Text("計畫")
+            PlanView()
                 .tabItem {
                     Label("計畫", systemImage: "calendar")
                 }
@@ -33,12 +32,13 @@ struct MainTabView: View {
                     Label("個人", systemImage: "person.fill")
                 }
         }
-        .environmentObject(customExerciseManager)
     }
 }
 
 struct MainTabView_Previews: PreviewProvider {
     static var previews: some View {
         MainTabView(isOnboardingComplete: .constant(true))
+            .environmentObject(CustomExerciseManager())
+            .environmentObject(WorkoutManager())
     }
 }

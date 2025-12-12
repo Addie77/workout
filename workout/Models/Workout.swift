@@ -7,17 +7,27 @@
 
 import Foundation
 
-struct Workout: Identifiable {
-    let id = UUID()
+struct Workout: Identifiable, Codable {
+    let id: UUID
     let name: String
     let description: String
     let duration: TimeInterval
     let calories: Double
     let level: String
     let exercises: [Exercise]
+    
+    init(id: UUID = UUID(), name: String, description: String, duration: TimeInterval, calories: Double, level: String, exercises: [Exercise]) {
+        self.id = id
+        self.name = name
+        self.description = description
+        self.duration = duration
+        self.calories = calories
+        self.level = level
+        self.exercises = exercises
+    }
 }
 
-struct Exercise: Identifiable, Codable {
+struct Exercise: Identifiable, Codable, Hashable {
     var id = UUID()
     let name: String
     let img: String
