@@ -18,12 +18,12 @@ class UserData: ObservableObject {
     @Published var weight: String = "70.5"
     @Published var age: String = "28"
     @Published var experience: ActivityLevelView.Experience = .beginner
-    @Published var frequency: ActivityLevelView.Frequency = .threeDays
+    @Published var frequency: Int = 3
     
     // Persisted Profile
     @Published var userProfile: UserProfile?
     @Published var workoutLogs: [WorkoutLog] = []
-
+    
     private let userProfileKey = "userProfile"
     private let onboardingCompleteKey = "isOnboardingComplete"
     private let workoutLogsKey = "workoutLogs"
@@ -55,7 +55,7 @@ class UserData: ObservableObject {
         saveWorkoutLogs()
         print("✅ Workout logged: \(workout.name), Duration: \(duration), Calories: \(adjustedCalories)")
     }
-
+    
     private func saveWorkoutLogs() {
         do {
             let encoded = try JSONEncoder().encode(workoutLogs)
@@ -64,7 +64,7 @@ class UserData: ObservableObject {
             print("❌ Failed to save workout logs: \(error)")
         }
     }
-
+    
     private func loadWorkoutLogs() {
         guard let data = UserDefaults.standard.data(forKey: workoutLogsKey) else {
             return
@@ -79,6 +79,11 @@ class UserData: ObservableObject {
         }
     }
     
+    func deleteLogs(ids: Set<UUID>) {
+        workoutLogs.removeAll { ids.contains($0.id) }
+        saveWorkoutLogs()
+    }
+    
     func saveProfile() {
         let profile = UserProfile(
             name: name.isEmpty ? "User" : name,
@@ -88,7 +93,7 @@ class UserData: ObservableObject {
             weight: Double(weight) ?? 0.0,
             age: Int(age) ?? 0,
             experience: experience.rawValue,
-            frequency: frequencyToInt(frequency)
+            frequency: frequency
         )
         
         self.userProfile = profile
@@ -102,7 +107,7 @@ class UserData: ObservableObject {
             print("❌ Failed to save user profile: \(error)")
         }
     }
-
+    
     func saveProfile(_ profile: UserProfile) {
         self.userProfile = profile
         do {
@@ -113,7 +118,7 @@ class UserData: ObservableObject {
             print("❌ Failed to save user profile: \(error)")
         }
     }
-
+    
     func updateAndSaveProfile() {
         guard let profile = self.userProfile else {
             print("⚠️ Attempted to update a nil profile.")
@@ -128,7 +133,7 @@ class UserData: ObservableObject {
             print("❌ Failed to save updated user profile: \(error)")
         }
     }
-
+    
     
     func loadProfile() {
         guard let data = UserDefaults.standard.data(forKey: userProfileKey) else {
@@ -154,7 +159,7 @@ class UserData: ObservableObject {
             if let experience = ActivityLevelView.Experience(rawValue: profile.experience) {
                 self.experience = experience
             }
-            self.frequency = intToFrequency(profile.frequency)
+            self.frequency = profile.frequency
             
             print("✅ User profile loaded successfully: \(profile)")
         } catch {
@@ -178,25 +183,9 @@ class UserData: ObservableObject {
         self.weight = "70.5"
         self.age = "28"
         self.experience = .beginner
-        self.frequency = .threeDays
+        self.frequency = 3
         
         print("🗑️ User account deleted and defaults reset.")
     }
     
-    private func frequencyToInt(_ freq: ActivityLevelView.Frequency) -> Int {
-        switch freq {
-        case .twoDays: return 2
-        case .threeDays: return 3
-        case .fourPlusDays: return 4
-        }
-    }
-    
-    private func intToFrequency(_ days: Int) -> ActivityLevelView.Frequency {
-        switch days {
-        case 2: return .twoDays
-        case 3: return .threeDays
-        case 4...7: return .fourPlusDays
-        default: return .threeDays
-        }
-    }
 }

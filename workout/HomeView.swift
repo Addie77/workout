@@ -106,11 +106,7 @@ struct WeeklyProgressCard: View {
     }
 
     private var targetWorkouts: Int {
-        switch userData.frequency {
-        case .twoDays: return 2
-        case .threeDays: return 3
-        case .fourPlusDays: return 4
-        }
+        userData.frequency
     }
 
     private var progress: Double {

@@ -17,13 +17,27 @@ struct CompletedWorkoutsView: View {
                         .foregroundColor(.secondary)
                         .frame(maxHeight: .infinity)
                 } else {
-                    List(sortedLogs) { log in
-                        WorkoutLogRow(log: log, workoutManager: workoutManager)
+                    List {
+                        ForEach(sortedLogs) { log in
+                            WorkoutLogRow(log: log, workoutManager: workoutManager)
+                        }
+                        .onDelete(perform: deleteLog)
                     }
                 }
             }
             .navigationTitle("已完成計畫")
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    EditButton()
+                }
+            }
         }
+    }
+
+    private func deleteLog(at offsets: IndexSet) {
+        let logsToDelete = offsets.map { sortedLogs[$0] }
+        let idsToDelete = Set(logsToDelete.map { $0.id })
+        userData.deleteLogs(ids: idsToDelete)
     }
 }
 
