@@ -7,10 +7,12 @@ struct MyGoalView: View {
     // Local state to avoid modifying environment object directly during selection
     @State private var localSelectedGoal: GoalSelectionView.Goal
     @State private var localExperience: ActivityLevelView.Experience
-    
+    @State private var localFrequency: Int
+
     init(userData: UserData) {
         _localSelectedGoal = State(initialValue: userData.selectedGoal)
         _localExperience = State(initialValue: userData.experience)
+        _localFrequency = State(initialValue: userData.frequency)
     }
 
     var body: some View {
@@ -32,6 +34,12 @@ struct MyGoalView: View {
                         }
                     }
                     .pickerStyle(WheelPickerStyle())
+                }
+                
+                Section(header: Text("每週運動天數")) {
+                    Stepper(value: $localFrequency, in: 1...7) {
+                        Text("\(localFrequency) 天")
+                    }
                 }
             }
             .navigationTitle("我的目標")
@@ -55,6 +63,7 @@ struct MyGoalView: View {
     private func saveChanges() {
         userData.selectedGoal = localSelectedGoal
         userData.experience = localExperience
+        userData.frequency = localFrequency
         userData.saveProfile()
     }
 }

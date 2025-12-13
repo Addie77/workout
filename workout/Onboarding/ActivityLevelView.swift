@@ -19,11 +19,7 @@ struct ActivityLevelView: View {
         case advanced = "進階 (18 個月以上)"
     }
     
-    enum Frequency: String, CaseIterable {
-        case twoDays = "2 天"
-        case threeDays = "3 天"
-        case fourPlusDays = "4+ 天"
-    }
+    // Frequency enum is no longer needed
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -57,14 +53,20 @@ struct ActivityLevelView: View {
                 .fontWeight(.bold)
                 .padding(.top, 32)
 
-            // Frequency
-            Picker("您平均一週運動幾天？", selection: $userData.frequency) {
-                ForEach(Frequency.allCases, id: \.self) {
-                    Text($0.rawValue).tag($0)
+            // Frequency Stepper
+            Stepper(value: $userData.frequency, in: 1...7) {
+                HStack {
+                    Text("\(userData.frequency) 天")
+                        .font(.headline)
+                        .fontWeight(.bold)
+                    Spacer()
                 }
             }
-            .pickerStyle(SegmentedPickerStyle())
+            .padding()
+            .background(Color(UIColor.systemGray6))
+            .cornerRadius(15)
             .padding(.top, 16)
+
 
             Spacer()
 
