@@ -23,8 +23,12 @@ struct EditWorkoutExercisesView: View {
 
     var body: some View {
         NavigationView {
-            VStack {
-                List {
+            Form {
+                Section(header: Text("計畫名稱")) {
+                    TextField("名稱", text: $workoutForEditing.name)
+                }
+
+                Section(header: Text("動作")) {
                     ForEach($workoutForEditing.exercises) { $exercise in
                         VStack(alignment: .leading) {
                             Text(exercise.exercise.name).font(.headline)
@@ -32,21 +36,18 @@ struct EditWorkoutExercisesView: View {
                         }
                     }
                     .onDelete(perform: deleteExercise)
-                }
-                
-                Button(action: {
-                    showingAddExerciseSheet = true
-                }) {
-                    HStack {
-                        Image(systemName: "plus.circle.fill")
-                        Text("新增動作")
+                    
+                    Button(action: {
+                        showingAddExerciseSheet = true
+                    }) {
+                        HStack {
+                            Image(systemName: "plus.circle.fill")
+                            Text("新增動作")
+                        }
                     }
-                    .font(.headline)
-                    .frame(maxWidth: .infinity)
                 }
-                .padding()
             }
-            .navigationTitle("編輯動作")
+            .navigationTitle("編輯計畫")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {

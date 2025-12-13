@@ -10,9 +10,11 @@ import SwiftUI
 import SwiftUI
 
 struct WorkoutDetailView: View {
-    let workout: Workout
+    @State var workout: Workout
     @State private var selectedExercise: Exercise?
     @State private var showingWorkoutPlayer = false
+    @State private var isEditing = false
+    @EnvironmentObject var workoutManager: WorkoutManager
 
     var body: some View {
         ScrollView {
@@ -94,11 +96,21 @@ struct WorkoutDetailView: View {
         )
         .navigationTitle(workout.name)
         .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button("編輯") {
+                    isEditing = true
+                }
+            }
+        }
         .sheet(item: $selectedExercise) { exercise in
             ExerciseDetailView(exercise: exercise)
         }
         .fullScreenCover(isPresented: $showingWorkoutPlayer) {
             WorkoutPlayerView(workout: workout)
+        }
+        .sheet(isPresented: $isEditing) {
+            EditWorkoutExercisesView(workout: workout)
         }
     }
 }
