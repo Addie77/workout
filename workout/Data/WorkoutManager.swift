@@ -23,13 +23,8 @@ class WorkoutManager: ObservableObject {
         }
     }
     
-    func deleteWorkout(at offsets: IndexSet) {
-        workouts.remove(atOffsets: offsets)
-        saveWorkouts()
-    }
-
-    func deleteWorkouts(ids: Set<UUID>) {
-        workouts.removeAll { ids.contains($0.id) }
+    func deleteWorkout(workout: Workout) {
+        workouts.removeAll { $0.id == workout.id }
         saveWorkouts()
     }
 
