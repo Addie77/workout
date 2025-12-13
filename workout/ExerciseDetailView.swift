@@ -33,12 +33,13 @@ struct ExerciseDetailView: View {
 
                     // The app will look for an image in the asset catalog with the same name as the exercise.
                     // For example, for "深蹲 (Squats)", you should add an image set named "深蹲 (Squats)".
-                    Image(uiImage: UIImage(named: exercise.name) ?? UIImage(named: exercise.img)!)
+                    Image(exercise.img)
                         .resizable()
                         .aspectRatio(contentMode: .fill)
                         .frame(height: 200)
                         .clipped()
                         .cornerRadius(20)
+                        .background(Color.gray.opacity(0.1).cornerRadius(20))
 
                     Picker("Details", selection: $selectedTab) {
                         Text("動作指引").tag(0)
