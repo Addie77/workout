@@ -22,12 +22,47 @@ class UserData: ObservableObject {
     
     // Persisted Profile
     @Published var userProfile: UserProfile?
-    
+    @Published var workoutLogs: [WorkoutLog] = []
+
     private let userProfileKey = "userProfile"
     private let onboardingCompleteKey = "isOnboardingComplete"
+    private let workoutLogsKey = "workoutLogs"
     
     init() {
         loadProfile()
+        loadWorkoutLogs()
+    }
+    
+    // MARK: - Workout Logging
+    
+    func logWorkout(workout: Workout) {
+        let newLog = WorkoutLog(workoutId: workout.id, date: Date())
+        workoutLogs.append(newLog)
+        saveWorkoutLogs()
+        print("✅ Workout logged: \(workout.name)")
+    }
+
+    private func saveWorkoutLogs() {
+        do {
+            let encoded = try JSONEncoder().encode(workoutLogs)
+            UserDefaults.standard.set(encoded, forKey: workoutLogsKey)
+        } catch {
+            print("❌ Failed to save workout logs: \(error)")
+        }
+    }
+
+    private func loadWorkoutLogs() {
+        guard let data = UserDefaults.standard.data(forKey: workoutLogsKey) else {
+            return
+        }
+        
+        do {
+            let logs = try JSONDecoder().decode([WorkoutLog].self, from: data)
+            self.workoutLogs = logs
+            print("✅ Workout logs loaded: \(logs.count) logs found.")
+        } catch {
+            print("❌ Failed to decode workout logs: \(error)")
+        }
     }
     
     func saveProfile() {
@@ -115,8 +150,11 @@ class UserData: ObservableObject {
     
     func deleteAccount() {
         UserDefaults.standard.removeObject(forKey: userProfileKey)
+        UserDefaults.standard.removeObject(forKey: workoutLogsKey)
         UserDefaults.standard.set(false, forKey: onboardingCompleteKey)
+        
         self.userProfile = nil
+        self.workoutLogs = []
         
         // Reset defaults
         self.name = ""

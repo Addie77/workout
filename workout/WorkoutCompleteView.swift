@@ -8,7 +8,25 @@
 import SwiftUI
 
 struct WorkoutCompleteView: View {
+    let workout: Workout
+    let duration: TimeInterval
     var onDismiss: () -> Void
+
+    @EnvironmentObject var userData: UserData
+
+    private var durationString: String {
+        let formatter = DateComponentsFormatter()
+        formatter.allowedUnits = [.minute, .second]
+        formatter.unitsStyle = .positional
+        formatter.zeroFormattingBehavior = .pad
+        return formatter.string(from: duration) ?? "00:00"
+    }
+
+    private var adjustedCalories: Int {
+        guard workout.duration > 0 else { return Int(workout.calories) }
+        let ratio = duration / workout.duration
+        return Int(workout.calories * ratio)
+    }
 
     var body: some View {
         VStack {
@@ -23,7 +41,7 @@ struct WorkoutCompleteView: View {
                 .fontWeight(.bold)
                 .padding(.top, 24)
             
-            Text("做得好，Alex！繼續保持。")
+            Text("做得好，\(userData.userProfile?.name ?? "User")！繼續保持。")
                 .font(.headline)
                 .foregroundColor(.gray)
 
@@ -32,7 +50,7 @@ struct WorkoutCompleteView: View {
                     Text("總時長")
                         .font(.headline)
                         .foregroundColor(.gray)
-                    Text("42:15")
+                    Text(durationString)
                         .font(.title)
                         .fontWeight(.bold)
                 }
@@ -40,7 +58,7 @@ struct WorkoutCompleteView: View {
                     Text("總消耗 (估)")
                         .font(.headline)
                         .foregroundColor(.gray)
-                    Text("315")
+                    Text("\(adjustedCalories)")
                         .font(.title)
                         .fontWeight(.bold)
                 }
@@ -67,6 +85,7 @@ struct WorkoutCompleteView: View {
 
 struct WorkoutCompleteView_Previews: PreviewProvider {
     static var previews: some View {
-        WorkoutCompleteView(onDismiss: {})
+        WorkoutCompleteView(workout: ExerciseData.beginnerWorkout, duration: 2535, onDismiss: {})
+            .environmentObject(UserData())
     }
 }

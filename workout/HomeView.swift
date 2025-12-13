@@ -9,6 +9,7 @@ import SwiftUI
 
 struct HomeView: View {
     @EnvironmentObject var userData: UserData
+    @Binding var selection: Tab
 
     var currentWorkout: Workout {
         switch userData.experience {
@@ -42,10 +43,10 @@ struct HomeView: View {
                     }
                     
                     // Weekly Progress
-                    WeeklyProgressCard()
+                    WeeklyProgressCard(userData: userData)
                     
                     // Explore
-                    ExploreCard()
+                    ExploreCard(selection: $selection)
 
                 }
                 .padding()
@@ -97,6 +98,41 @@ struct TodaysWorkoutCard: View {
 }
 
 struct WeeklyProgressCard: View {
+    @ObservedObject var userData: UserData
+
+    private var workoutsThisWeek: [WorkoutLog] {
+        let startOfWeek = Date.getStartOfWeek()
+        return userData.workoutLogs.filter { $0.date >= startOfWeek }
+    }
+
+    private var targetWorkouts: Int {
+        switch userData.frequency {
+        case .twoDays: return 2
+        case .threeDays: return 3
+        case .fourPlusDays: return 4
+        }
+    }
+
+    private var progress: Double {
+        guard targetWorkouts > 0 else { return 0 }
+        return min(Double(workoutsThisWeek.count) / Double(targetWorkouts), 1.0)
+    }
+
+    private var days: [String] {
+        ["一", "二", "三", "四", "五", "六", "日"]
+    }
+    
+    private func isDayCompleted(_ dayIndex: Int) -> Bool {
+        // Check if there is any log for the given day index
+        workoutsThisWeek.contains { log in
+            log.date.getWeekday() == dayIndex
+        }
+    }
+
+    private func isToday(_ dayIndex: Int) -> Bool {
+        Date().getWeekday() == dayIndex
+    }
+
     var body: some View {
         VStack(alignment: .leading) {
             Text("本週進度")
@@ -106,26 +142,24 @@ struct WeeklyProgressCard: View {
             
             VStack(spacing: 12) {
                 HStack {
-                    Text("已完成 0 / 3 次訓練")
+                    Text("已完成 \(workoutsThisWeek.count) / \(targetWorkouts) 次訓練")
                         .fontWeight(.semibold)
                     Spacer()
-                    Text("0%")
+                    Text("\(Int(progress * 100))%")
                         .font(.caption)
                         .fontWeight(.bold)
                         .foregroundColor(.green)
                 }
                 
-                ProgressView(value: 0.0)
+                ProgressView(value: progress)
                     .progressViewStyle(LinearProgressViewStyle(tint: .green))
                 
                 HStack(spacing: 12) {
-                    DayView(day: "一", isCompleted: false, isToday: false)
-                    DayView(day: "二", isCompleted: false, isToday: true) // 假設今天是星期二
-                    DayView(day: "三", isCompleted: false, isToday: false)
-                    DayView(day: "四", isCompleted: false, isToday: false)
-                    DayView(day: "五", isCompleted: false, isToday: false)
-                    DayView(day: "六", isCompleted: false, isToday: false)
-                    DayView(day: "日", isCompleted: false, isToday: false)
+                    ForEach(0..<days.count, id: \.self) { index in
+                        DayView(day: days[index],
+                                isCompleted: isDayCompleted(index),
+                                isToday: isToday(index))
+                    }
                 }
             }
             .padding()
@@ -173,12 +207,16 @@ struct DayView: View {
 
 
 struct ExploreCard: View {
+    @Binding var selection: Tab
+
     var body: some View {
         VStack(alignment: .leading) {
             Text("探索動作")
                 .font(.title2)
                 .fontWeight(.bold)
-            NavigationLink(destination: ExploreView()){
+            Button(action: {
+                selection = .explore
+            }) {
                 Image("explore-banner") // Placeholder for an actual image
                     .resizable()
                     .aspectRatio(contentMode: .fill)
@@ -205,7 +243,7 @@ struct ExploreCard: View {
 
 struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
-        HomeView()
+        HomeView(selection: .constant(.home))
             .environmentObject(UserData()) // Provide a UserData for preview
     }
 }
