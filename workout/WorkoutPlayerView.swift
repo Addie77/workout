@@ -13,6 +13,7 @@ struct WorkoutPlayerView: View {
     @State private var currentExerciseIndex: Int = 0
     @State private var currentSet: Int = 1
     @State private var isResting: Bool = false
+    @State private var showingExerciseDetail: Bool = false
 
     var currentWorkoutExercise: WorkoutExercise {
         workout.exercises[currentExerciseIndex]
@@ -65,6 +66,9 @@ struct WorkoutPlayerView: View {
                         .cornerRadius(20)
                         .padding()
                         .background(Color.gray.opacity(0.1).cornerRadius(20)) // Placeholder background
+                        .onTapGesture {
+                            showingExerciseDetail = true
+                        }
 
                     Spacer()
 
@@ -131,6 +135,9 @@ struct WorkoutPlayerView: View {
                         .foregroundColor(.gray)
                     }
                     .padding()
+                }
+                .sheet(isPresented: $showingExerciseDetail) {
+                    ExerciseDetailView(exercise: currentExercise)
                 }
             }
         }
