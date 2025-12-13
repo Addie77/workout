@@ -58,6 +58,9 @@ struct ExploreView: View {
                         NavigationLink(destination: ExerciseListView(categoryName: "手臂")) {
                             CategoryCard(imageName: "arms-banner", categoryName: "手臂")
                         }
+                        NavigationLink(destination: ExerciseListView(categoryName: "核心")) {
+                            CategoryCard(imageName: "core-banner", categoryName: "核心")
+                        }
                     }
                     .padding(.horizontal)
                 } else {
