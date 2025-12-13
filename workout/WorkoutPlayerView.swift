@@ -17,6 +17,10 @@ struct WorkoutPlayerView: View {
     @State private var showCompletionView = false
     @State private var startTime = Date()
     @State private var workoutDuration: TimeInterval = 0
+    
+    // New State Variables
+    @State private var isResting = false
+    @State private var showingExerciseDetail = false
 
     var currentWorkoutExercise: WorkoutExercise {
         workout.exercises[currentExerciseIndex]
@@ -54,12 +58,16 @@ struct WorkoutPlayerView: View {
                 }
                 .padding()
 
-                // Image
-                Image(currentExercise.img)
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .cornerRadius(20)
-                    .padding()
+                // Image with Tap Gesture
+                Button(action: {
+                    showingExerciseDetail = true
+                }) {
+                    Image(currentExercise.img)
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .cornerRadius(20)
+                        .padding()
+                }
 
                 Spacer()
 
@@ -77,7 +85,7 @@ struct WorkoutPlayerView: View {
                         Text("次數")
                             .font(.title)
                             .foregroundColor(.gray)
-                        Text(currentExercise.reps.replacingOccurrences(of: " 次", with: "")) // Remove " 次" for cleaner display
+                        Text(currentExercise.reps.replacingOccurrences(of: " 次", with: "")) 
                             .font(.system(size: 60, weight: .bold))
                             .foregroundColor(.white)
                     }
@@ -88,20 +96,7 @@ struct WorkoutPlayerView: View {
                 // Controls
                 VStack(spacing: 16) {
                     Button(action: {
-                        if currentSet < currentWorkoutExercise.sets {
-                            currentSet += 1
-                        } else {
-                            // Last set of current exercise
-                            if currentExerciseIndex < workout.exercises.count - 1 {
-                                currentExerciseIndex += 1
-                                currentSet = 1 // Reset for next exercise
-                            } else {
-                                // Last exercise completed, go to WorkoutCompleteView
-                                workoutDuration = Date().timeIntervalSince(startTime)
-                                userData.logWorkout(workout: workout)
-                                showCompletionView = true
-                            }
-                        }
+                        handleCompleteSet()
                     }) {
                         Text("完成一組 (休息 60s)")
                             .font(.headline)
@@ -116,22 +111,11 @@ struct WorkoutPlayerView: View {
 
                     HStack {
                         Button("上一個") {
-                            if currentExerciseIndex > 0 {
-                                currentExerciseIndex -= 1
-                                currentSet = 1 // Reset sets when going back
-                            }
+                           previousExercise()
                         }
                         Spacer()
                         Button("跳過動作") {
-                            if currentExerciseIndex < workout.exercises.count - 1 {
-                                currentExerciseIndex += 1
-                                currentSet = 1 // Reset sets for skipped exercise
-                            } else {
-                                // If last exercise, log and show completion
-                                workoutDuration = Date().timeIntervalSince(startTime)
-                                userData.logWorkout(workout: workout)
-                                showCompletionView = true
-                            }
+                            skipExercise()
                         }
                     }
                     .font(.headline)
@@ -145,6 +129,57 @@ struct WorkoutPlayerView: View {
                 dismiss()
             })
         }
+        .fullScreenCover(isPresented: $isResting) {
+            RestView(isResting: $isResting, totalTime: 60, onFinish: {
+                advanceAfterRest()
+            })
+        }
+        .sheet(isPresented: $showingExerciseDetail) {
+            ExerciseDetailView(exercise: currentExercise)
+        }
+    }
+    
+    private func handleCompleteSet() {
+        if currentExerciseIndex == workout.exercises.count - 1 && currentSet == currentWorkoutExercise.sets {
+             finishWorkout()
+        } else {
+            isResting = true
+        }
+    }
+    
+    private func advanceAfterRest() {
+        if currentSet < currentWorkoutExercise.sets {
+            currentSet += 1
+        } else {
+            if currentExerciseIndex < workout.exercises.count - 1 {
+                currentExerciseIndex += 1
+                currentSet = 1
+            } else {
+                finishWorkout()
+            }
+        }
+    }
+    
+    private func previousExercise() {
+        if currentExerciseIndex > 0 {
+            currentExerciseIndex -= 1
+            currentSet = 1 
+        }
+    }
+    
+    private func skipExercise() {
+        if currentExerciseIndex < workout.exercises.count - 1 {
+            currentExerciseIndex += 1
+            currentSet = 1
+        } else {
+            finishWorkout()
+        }
+    }
+    
+    private func finishWorkout() {
+        workoutDuration = Date().timeIntervalSince(startTime)
+        userData.logWorkout(workout: workout)
+        showCompletionView = true
     }
 }
 
