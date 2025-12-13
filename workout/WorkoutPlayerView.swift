@@ -178,7 +178,7 @@ struct WorkoutPlayerView: View {
     
     private func finishWorkout() {
         workoutDuration = Date().timeIntervalSince(startTime)
-        userData.logWorkout(workout: workout)
+        userData.logWorkout(workout: workout, duration: workoutDuration)
         showCompletionView = true
     }
 }

@@ -35,11 +35,25 @@ class UserData: ObservableObject {
     
     // MARK: - Workout Logging
     
-    func logWorkout(workout: Workout) {
-        let newLog = WorkoutLog(workoutId: workout.id, date: Date())
+    func logWorkout(workout: Workout, duration: TimeInterval) {
+        let adjustedCalories: Double
+        if workout.duration > 0 {
+            let ratio = duration / workout.duration
+            adjustedCalories = workout.calories * ratio
+        } else {
+            adjustedCalories = workout.calories
+        }
+        
+        let newLog = WorkoutLog(
+            workoutId: workout.id,
+            date: Date(),
+            duration: duration,
+            caloriesBurned: adjustedCalories
+        )
+        
         workoutLogs.append(newLog)
         saveWorkoutLogs()
-        print("✅ Workout logged: \(workout.name)")
+        print("✅ Workout logged: \(workout.name), Duration: \(duration), Calories: \(adjustedCalories)")
     }
 
     private func saveWorkoutLogs() {

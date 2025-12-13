@@ -11,4 +11,6 @@ struct WorkoutLog: Identifiable, Codable {
     var id = UUID()
     var workoutId: UUID
     var date: Date
+    var duration: TimeInterval
+    var caloriesBurned: Double
 }

@@ -104,13 +104,15 @@ struct StatBox: View {
 }
 
 struct OptionsListView: View {
+    @EnvironmentObject var userData: UserData
+    
     var body: some View {
         VStack(alignment: .leading) {
-            NavigationLink(destination: Text("已完成計畫")) {
+            NavigationLink(destination: CompletedWorkoutsView()) {
                 OptionRow(title: "已完成計畫", icon: "⭐", iconColor: .yellow)
             }
             Divider()
-            NavigationLink(destination: Text("我的目標")) {
+            NavigationLink(destination: MyGoalView(userData: userData)) {
                 OptionRow(title: "我的目標", icon: "🎯", iconColor: .blue)
             }
             Divider()
