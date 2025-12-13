@@ -15,7 +15,7 @@ struct WorkoutExercise: Identifiable, Codable, Hashable {
 
 struct Workout: Identifiable, Codable {
     let id: UUID
-    let name: String
+    var name: String
     let description: String
     var duration: TimeInterval
     var calories: Double

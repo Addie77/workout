@@ -10,8 +10,13 @@ import SwiftUI
 struct WorkoutPlayerView: View {
     let workout: Workout
     @Environment(\.dismiss) var dismiss
+    @EnvironmentObject var userData: UserData
+    
     @State private var currentExerciseIndex: Int = 0
     @State private var currentSet: Int = 1
+    @State private var showCompletionView = false
+    @State private var startTime = Date()
+    @State private var workoutDuration: TimeInterval = 0
 
     var currentWorkoutExercise: WorkoutExercise {
         workout.exercises[currentExerciseIndex]
@@ -92,7 +97,9 @@ struct WorkoutPlayerView: View {
                                 currentSet = 1 // Reset for next exercise
                             } else {
                                 // Last exercise completed, go to WorkoutCompleteView
-                                dismiss() // For now, just dismiss
+                                workoutDuration = Date().timeIntervalSince(startTime)
+                                userData.logWorkout(workout: workout)
+                                showCompletionView = true
                             }
                         }
                     }) {
@@ -120,7 +127,10 @@ struct WorkoutPlayerView: View {
                                 currentExerciseIndex += 1
                                 currentSet = 1 // Reset sets for skipped exercise
                             } else {
-                                dismiss() // If last exercise, just dismiss
+                                // If last exercise, log and show completion
+                                workoutDuration = Date().timeIntervalSince(startTime)
+                                userData.logWorkout(workout: workout)
+                                showCompletionView = true
                             }
                         }
                     }
@@ -130,11 +140,17 @@ struct WorkoutPlayerView: View {
                 .padding()
             }
         }
+        .fullScreenCover(isPresented: $showCompletionView) {
+            WorkoutCompleteView(workout: workout, duration: workoutDuration, onDismiss: {
+                dismiss()
+            })
+        }
     }
 }
 
 struct WorkoutPlayerView_Previews: PreviewProvider {
     static var previews: some View {
         WorkoutPlayerView(workout: ExerciseData.beginnerWorkout)
+            .environmentObject(UserData())
     }
 }
