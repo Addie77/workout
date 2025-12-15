@@ -16,6 +16,22 @@ struct ExploreView: View {
     @State private var showingExporter = false
     @State private var documentToExport: ExerciseDocument?
     
+    private var allAvailableExercises: [Exercise] {
+        ExerciseData.allExercises + EquipmentData.allEquipment + customExerciseManager.customExercises
+    }
+
+    private var filteredExercises: [Exercise] {
+        if searchText.isEmpty {
+            return []
+        } else {
+            return allAvailableExercises.filter {
+                $0.name.localizedCaseInsensitiveContains(searchText) ||
+                $0.category.localizedCaseInsensitiveContains(searchText) ||
+                $0.muscleGroups.localizedCaseInsensitiveContains(searchText)
+            }.unique()
+        }
+    }
+    
     var body: some View {
         NavigationView {
             ScrollView {
@@ -31,77 +47,98 @@ struct ExploreView: View {
                     .cornerRadius(10)
                     .padding(.horizontal)
                     
-                    // Segmented Control
-                    Picker("Filter", selection: $selectedSegment) {
-                        Text("官方動作庫").tag(0)
-                        Text("我的自訂").tag(1)
-                    }
-                    .pickerStyle(SegmentedPickerStyle())
-                    .padding(.horizontal)
-                    
-                    if selectedSegment == 0 {
-                        // Category Grid
-                        Text("按部位分類")
-                            .font(.title2)
-                            .fontWeight(.bold)
-                            .padding(.horizontal)
-                        
-                        LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 20) {
-                            NavigationLink(destination: ExerciseListView(categoryName: "胸部")) {
-                                CategoryCard(imageName: "chest-banner", categoryName: "胸部")
-                            }
-                            NavigationLink(destination: ExerciseListView(categoryName: "背部")) {
-                                CategoryCard(imageName: "back-banner", categoryName: "背部")
-                            }
-                            NavigationLink(destination: ExerciseListView(categoryName: "腿部")) {
-                                CategoryCard(imageName: "legs-banner", categoryName: "腿部")
-                            }
-                            NavigationLink(destination: ExerciseListView(categoryName: "手臂")) {
-                                CategoryCard(imageName: "arms-banner", categoryName: "手臂")
-                            }
-                            NavigationLink(destination: ExerciseListView(categoryName: "其他")) {
-                                CategoryCard(imageName: "body-banner", categoryName: "其他")
-                            }
-                            NavigationLink(destination: ExerciseListView(categoryName: "核心")) {
-                                CategoryCard(imageName: "core-banner", categoryName: "核心")
-                            }
-                            ZStack (alignment: .bottom){
-                                NavigationLink(destination: ExerciseListView(categoryName: "器材")) {
-                                    CategoryCard(imageName:"Dumbbells",categoryName: "器材")
-                                        .colorMultiply(Color(.systemGray4))
-                                }
-                                Text("器材")
-                                    .padding()
-                            }
-                            
+                    if searchText.isEmpty {
+                        // Segmented Control
+                        Picker("Filter", selection: $selectedSegment) {
+                            Text("官方動作庫").tag(0)
+                            Text("我的自訂").tag(1)
                         }
+                        .pickerStyle(SegmentedPickerStyle())
                         .padding(.horizontal)
+                        
+                        if selectedSegment == 0 {
+                            // Category Grid
+                            Text("按部位分類")
+                                .font(.title2)
+                                .fontWeight(.bold)
+                                .padding(.horizontal)
+                            
+                            LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 20) {
+                                NavigationLink(destination: ExerciseListView(categoryName: "胸部")) {
+                                    CategoryCard(imageName: "chest-banner", categoryName: "胸部")
+                                }
+                                NavigationLink(destination: ExerciseListView(categoryName: "背部")) {
+                                    CategoryCard(imageName: "back-banner", categoryName: "背部")
+                                }
+                                NavigationLink(destination: ExerciseListView(categoryName: "腿部")) {
+                                    CategoryCard(imageName: "legs-banner", categoryName: "腿部")
+                                }
+                                NavigationLink(destination: ExerciseListView(categoryName: "手臂")) {
+                                    CategoryCard(imageName: "arms-banner", categoryName: "手臂")
+                                }
+                                NavigationLink(destination: ExerciseListView(categoryName: "其他")) {
+                                    CategoryCard(imageName: "body-banner", categoryName: "其他")
+                                }
+                                NavigationLink(destination: ExerciseListView(categoryName: "核心")) {
+                                    CategoryCard(imageName: "core-banner", categoryName: "核心")
+                                }
+                                ZStack (alignment: .bottom){
+                                    NavigationLink(destination: ExerciseListView(categoryName: "器材")) {
+                                        CategoryCard(imageName:"Dumbbells",categoryName: "器材")
+                                            .colorMultiply(Color(.systemGray4))
+                                    }
+                                    Text("器材")
+                                        .padding()
+                                }
+                                
+                            }
+                            .padding(.horizontal)
+                        } else {
+                            // Custom Exercises List
+                            if customExerciseManager.customExercises.isEmpty {
+                                VStack {
+                                    Spacer()
+                                    Text("您尚未建立任何自訂動作。")
+                                        .foregroundColor(.secondary)
+                                        .padding()
+                                    Spacer()
+                                }
+                            } else {
+                                VStack {
+                                    ForEach(customExerciseManager.customExercises.map { $0.category }.unique(), id: \.self) { category in
+                                        Section(header:
+                                                    Text(category)
+                                            .font(.headline)
+                                            .frame(maxWidth: .infinity, alignment: .leading)
+                                            .padding(.vertical, 8)
+                                            .background(Color(UIColor.systemGroupedBackground))
+                                        ) {
+                                            ForEach(customExerciseManager.customExercises.filter { $0.category == category }) { exercise in
+                                                NavigationLink(destination: ExerciseDetailView(exercise: exercise)) {
+                                                    ExerciseRow(exercise: exercise)
+                                                }
+                                                Divider()
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     } else {
-                        // Custom Exercises List
-                        if customExerciseManager.customExercises.isEmpty {
+                        // Search Results
+                        if filteredExercises.isEmpty {
                             VStack {
                                 Spacer()
-                                Text("您尚未建立任何自訂動作。")
+                                Text("找不到符合 \"\(searchText)\" 的動作")
                                     .foregroundColor(.secondary)
                                     .padding()
                                 Spacer()
                             }
                         } else {
-                            VStack {
-                                ForEach(customExerciseManager.customExercises.map { $0.category }.unique(), id: \.self) { category in
-                                    Section(header:
-                                                Text(category)
-                                        .font(.headline)
-                                        .frame(maxWidth: .infinity, alignment: .leading)
-                                        .padding(.vertical, 8)
-                                        .background(Color(UIColor.systemGroupedBackground))
-                                    ) {
-                                        ForEach(customExerciseManager.customExercises.filter { $0.category == category }) { exercise in
-                                            NavigationLink(destination: ExerciseDetailView(exercise: exercise)) {
-                                                ExerciseRow(exercise: exercise)
-                                            }
-                                            Divider()
-                                        }
+                            LazyVStack(spacing: 0) {
+                                ForEach(filteredExercises) { exercise in
+                                    NavigationLink(destination: ExerciseDetailView(exercise: exercise)) {
+                                        ExerciseRow(exercise: exercise)
                                     }
                                 }
                             }
@@ -112,7 +149,7 @@ struct ExploreView: View {
                 .navigationTitle("探索")
                 .toolbar {
                     ToolbarItemGroup(placement: .navigationBarTrailing) {
-                        if selectedSegment == 1 {
+                        if selectedSegment == 1 && searchText.isEmpty {
                             // EditButton() // EditButton doesn't work with VStack
                             Button(action: {
                                 documentToExport = ExerciseDocument(exercises: customExerciseManager.customExercises)
@@ -142,16 +179,16 @@ struct ExploreView: View {
                     }
                 }
             }
-                }
-            }
-        
-                private func deleteCustomExercise(at offsets: IndexSet, in category: String) {
-            let exercisesInCategory = customExerciseManager.customExercises.filter { $0.category == category }
-            let exercisesToDelete = offsets.map { exercisesInCategory[$0] }
-            let idsToDelete = Set(exercisesToDelete.map { $0.id })
-            customExerciseManager.deleteExercises(ids: idsToDelete)
         }
     }
+        
+    private func deleteCustomExercise(at offsets: IndexSet, in category: String) {
+        let exercisesInCategory = customExerciseManager.customExercises.filter { $0.category == category }
+        let exercisesToDelete = offsets.map { exercisesInCategory[$0] }
+        let idsToDelete = Set(exercisesToDelete.map { $0.id })
+        customExerciseManager.deleteExercises(ids: idsToDelete)
+    }
+}
     
     struct CategoryCard: View {
         let imageName: String
