@@ -7,25 +7,24 @@
 
 import SwiftUI
 
+import SwiftUI
+
 struct ExerciseDetailView: View {
     let exercise: Exercise
     @State private var selectedTab: Int = 0
     @Environment(\.dismiss) var dismiss
+    @EnvironmentObject var customExerciseManager: CustomExerciseManager
+    @State private var showingEditView = false
+
+    private var isCustom: Bool {
+        customExerciseManager.customExercises.contains(where: { $0.id == exercise.id })
+    }
 
     var body: some View {
-        VStack(spacing: 0) {
-            // Handle
-            Capsule()
-                .fill(Color.gray.opacity(0.5))
-                .frame(width: 40, height: 5)
-                .padding(.top, 8)
-                .padding(.bottom, 8)
-
+        NavigationView {
             ScrollView {
                 VStack(alignment: .leading, spacing: 16) {
-                    Text(exercise.name)
-                        .font(.largeTitle)
-                        .fontWeight(.bold)
+                    // Removed Text(exercise.name) as it's now in navigationTitle
                     
                     Text(exercise.muscleGroups)
                         .font(.headline)
@@ -85,21 +84,28 @@ struct ExerciseDetailView: View {
                 }
                 .padding()
             }
-            
-            Button(action: {
-                dismiss()
-            }) {
-                Text("關閉")
-                    .font(.headline)
-                    .fontWeight(.bold)
-                    .frame(maxWidth: .infinity)
-                    .padding()
-                    .background(Color(UIColor.systemGray5))
-                    .foregroundColor(.primary)
-                    .cornerRadius(20)
+            .navigationTitle(exercise.name)
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    if isCustom {
+                        Button(action: {
+                            showingEditView = true
+                        }) {
+                            Image(systemName: "pencil.circle.fill")
+                                .font(.title2)
+                        }
+                    }
+                }
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button("完成") {
+                        dismiss()
+                    }
+                }
             }
-            .padding(.horizontal, 32)
-            .padding(.bottom, 40)
+        }
+        .sheet(isPresented: $showingEditView) {
+            EditExerciseView(exercise: exercise)
         }
     }
 }
@@ -107,5 +113,6 @@ struct ExerciseDetailView: View {
 struct ExerciseDetailView_Previews: PreviewProvider {
     static var previews: some View {
         ExerciseDetailView(exercise: Exercise(name: "深蹲 (Squats)",img: "exercise-detail-banner", sets: 3, reps: "10 次", videoURL: URL(string: "https://www.youtube.com/watch?v=2J9zsFwhF2Q"), description: "", muscleGroups: "股四頭肌、臀大肌", instructions: "1. 雙腳與肩同寬，腳尖微朝外。\n2. 抬頭挺胸，核心收緊，背部打直。\n3. 臀部像坐椅子一樣向後推，同時下蹲，直到大腿與地面平行。\n4. 過程中保持膝蓋與腳尖方向一致。\n5. 用臀腿力量發力，站回起始位置。", commonMistakes: "1. 膝蓋內夾：在下蹲或站起時，膝蓋向內靠攏，這會對膝關節造成過大壓力。\n2. 駝背或過度拱背：背部沒有保持打直，容易導致下背部受傷。", category: "腿部"))
+            .environmentObject(CustomExerciseManager())
     }
 }

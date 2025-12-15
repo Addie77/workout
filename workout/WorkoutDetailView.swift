@@ -145,8 +145,6 @@ struct ExerciseRow: View {
                     .foregroundColor(.secondary)
             }
             Spacer()
-            Image(systemName: "chevron.right")
-                .foregroundColor(.secondary)
         }
         .padding(12)
         .background(Color(UIColor.secondarySystemGroupedBackground))

@@ -29,6 +29,18 @@ class CustomExerciseManager: ObservableObject {
         saveCustomExercises()
     }
     
+    func deleteExercises(ids: Set<UUID>) {
+        customExercises.removeAll { ids.contains($0.id) }
+        saveCustomExercises()
+    }
+
+    func updateExercise(_ exercise: Exercise) {
+        if let index = customExercises.firstIndex(where: { $0.id == exercise.id }) {
+            customExercises[index] = exercise
+            saveCustomExercises()
+        }
+    }
+    
     func deleteAllExercises() {
         customExercises.removeAll()
         UserDefaults.standard.removeObject(forKey: customExercisesKey)

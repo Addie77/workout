@@ -70,6 +70,9 @@ struct ExploreView: View {
                                 .padding()
                         }
                         
+                                .padding()
+                        }
+                        
                     }
                     .padding(.horizontal)
                 } else {
@@ -91,6 +94,9 @@ struct ExploreView: View {
                                             ExerciseRow(exercise: exercise)
                                         }
                                     }
+                                    .onDelete { indexSet in
+                                        deleteCustomExercise(at: indexSet, in: category)
+                                    }
                                 }
                             }
                         }
@@ -102,6 +108,7 @@ struct ExploreView: View {
             .toolbar {
                 ToolbarItemGroup(placement: .navigationBarTrailing) {
                     if selectedSegment == 1 {
+                        EditButton() // Add EditButton to toggle delete mode
                         Button(action: {
                             documentToExport = ExerciseDocument(exercises: customExerciseManager.customExercises)
                             showingExporter = true
@@ -130,6 +137,13 @@ struct ExploreView: View {
                 }
             }
         }
+    }
+
+    private func deleteCustomExercise(at offsets: IndexSet, in category: String) {
+        let exercisesInCategory = customExerciseManager.customExercises.filter { $0.category == category }
+        let exercisesToDelete = offsets.map { exercisesInCategory[$0] }
+        let idsToDelete = Set(exercisesToDelete.map { $0.id })
+        customExerciseManager.deleteExercises(ids: idsToDelete)
     }
 }
 
