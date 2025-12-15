@@ -36,7 +36,7 @@ struct ExerciseDetailView: View {
                     Image(exercise.img)
                         .resizable()
                         .aspectRatio(contentMode: .fill)
-                        .frame(height: 200)
+                        .frame(height: 220)
                         .clipped()
                         .cornerRadius(20)
                         .background(Color.gray.opacity(0.1).cornerRadius(20))

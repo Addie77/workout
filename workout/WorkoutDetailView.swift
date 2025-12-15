@@ -6,8 +6,7 @@
 //
 
 import SwiftUI
-
-import SwiftUI
+import UIKit
 
 struct WorkoutDetailView: View {
     @State var workout: Workout
@@ -54,11 +53,7 @@ struct WorkoutDetailView: View {
                 VStack(spacing: 16) {
                     ForEach(workout.exercises) { workoutExercise in
                         Button(action: { selectedExercise = workoutExercise.exercise }) {
-                            ExerciseRow(
-                                image: String(workoutExercise.exercise.name.prefix(2)),
-                                name: workoutExercise.exercise.name,
-                                reps: "\(workoutExercise.sets) 組 x \(workoutExercise.exercise.reps)"
-                            )
+                            ExerciseRow(exercise: workoutExercise.exercise, workoutExercise: workoutExercise)
                         }
                     }
                 }
@@ -116,24 +111,36 @@ struct WorkoutDetailView: View {
 }
 
 struct ExerciseRow: View {
-    let image: String
-    let name: String
-    let reps: String
+    let exercise: Exercise
+    var workoutExercise: WorkoutExercise? = nil
 
     var body: some View {
         HStack(spacing: 16) {
-            Text(image)
-                .font(.title)
-                .frame(width: 64, height: 64)
-                .background(Color.blue.opacity(0.1))
-                .cornerRadius(10)
-                .foregroundColor(.blue)
+            Group {
+                if UIImage(named: exercise.img) != nil {
+                    Image(exercise.img)
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .frame(width: 64, height: 64)
+                        .clipped()
+                        .cornerRadius(10)
+                } else {
+                    Text(String(exercise.name.prefix(2)))
+                        .font(.title)
+                        .frame(width: 64, height: 64)
+                        .background(Color.blue.opacity(0.1))
+                        .cornerRadius(10)
+                        .foregroundColor(.blue)
+                }
+            }
 
             VStack(alignment: .leading) {
-                Text(name)
+                Text(exercise.name)
                     .font(.headline)
                     .fontWeight(.semibold)
-                Text(reps)
+                
+                let sets = workoutExercise?.sets ?? exercise.sets
+                Text(sets == 0 && exercise.reps.isEmpty ? "N/A" : "\(sets) 組 x \(exercise.reps)")
                     .font(.subheadline)
                     .foregroundColor(.secondary)
             }

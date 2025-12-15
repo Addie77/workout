@@ -88,7 +88,7 @@ struct ExploreView: View {
                                 Section(header: Text(category)) {
                                     ForEach(customExerciseManager.customExercises.filter { $0.category == category }) { exercise in
                                         NavigationLink(destination: ExerciseDetailView(exercise: exercise)) {
-                                            ExerciseRow(image: String(exercise.name.prefix(2)), name: exercise.name, reps: exercise.reps)
+                                            ExerciseRow(exercise: exercise)
                                         }
                                     }
                                 }

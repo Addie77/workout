@@ -26,7 +26,7 @@ struct ExerciseListView: View {
                 LazyVStack(spacing: 0) {
                     ForEach(allCategoryExercises) { exercise in
                         NavigationLink(destination: ExerciseDetailView(exercise: exercise)) {
-                            ExerciseRow(image: String(exercise.name.prefix(2)), name: exercise.name, reps: exercise.reps)
+                            ExerciseRow(exercise: exercise)
                         }
                     }
                 }
