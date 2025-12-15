@@ -58,6 +58,18 @@ struct ExploreView: View {
                         NavigationLink(destination: ExerciseListView(categoryName: "手臂")) {
                             CategoryCard(imageName: "arms-banner", categoryName: "手臂")
                         }
+                        NavigationLink(destination: ExerciseListView(categoryName: "其他")) {
+                            CategoryCard(imageName: "body-banner", categoryName: "其他")
+                        }
+                        ZStack (alignment: .bottom){
+                            NavigationLink(destination: ExerciseListView(categoryName: "器材")) {
+                                CategoryCard(imageName:"Dumbbells",categoryName: "器材")
+                                    .colorMultiply(Color(.systemGray4))
+                            }
+                            Text("器材")
+                                .padding()
+                        }
+                        
                     }
                     .padding(.horizontal)
                 } else {

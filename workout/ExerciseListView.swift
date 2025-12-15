@@ -12,7 +12,7 @@ struct ExerciseListView: View {
     let categoryName: String
 
     var body: some View {
-        let categoryExercises = ExerciseData.allExercises.filter { $0.category == categoryName }
+        let categoryExercises = categoryName == "器材" ? EquipmentData.allEquipment : ExerciseData.allExercises.filter { $0.category == categoryName }
         let customCategoryExercises = customExerciseManager.customExercises.filter { $0.category == categoryName }
         let allCategoryExercises = categoryExercises + customCategoryExercises
         
