@@ -139,10 +139,11 @@ struct ExerciseRow: View {
                     .font(.headline)
                     .fontWeight(.semibold)
                 
-                let sets = workoutExercise?.sets ?? exercise.sets
-                Text(sets == 0 && exercise.reps.isEmpty ? "N/A" : "\(sets) 組 x \(exercise.reps)")
-                    .font(.subheadline)
-                    .foregroundColor(.secondary)
+                if let we = workoutExercise {
+                    Text("\(we.sets) 組 x \(we.reps)")
+                        .font(.subheadline)
+                        .foregroundColor(.secondary)
+                }
             }
             Spacer()
         }

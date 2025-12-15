@@ -12,8 +12,6 @@ struct ExerciseData {
         Exercise(
             name: "深蹲 (Squats)",
             img: "exercise-detail-banner", // 列表中沒有單純的 "Squat.jpg"，暫時保留預設圖
-            sets: 3,
-            reps: "10 次",
             videoURL: URL(string: "https://www.youtube.com/watch?v=2J9zsFwhF2Q"),
             description: "",
             muscleGroups: "股四頭肌、臀大肌",
@@ -24,8 +22,6 @@ struct ExerciseData {
         Exercise(
             name: "伏地挺身 (Pushups)",
             img: "Push-ups",
-            sets: 3,
-            reps: "8 次",
             videoURL: URL(string: "https://www.youtube.com/watch?v=gIrS4_UW5Fg"),
             description: "",
             muscleGroups: "胸肌、三頭肌、三角肌前束",
@@ -36,8 +32,6 @@ struct ExerciseData {
         Exercise(
             name: "啞鈴划船 (Dumbbell Row)",
             img: "Dumbbell rows",
-            sets: 3,
-            reps: "10 次 (每側)",
             videoURL: URL(string: "https://www.youtube.com/watch?v=mwyC_CLTHwE"),
             description: "",
             muscleGroups: "背闊肌、二頭肌、三角肌後束",
@@ -48,8 +42,6 @@ struct ExerciseData {
         Exercise(
             name: "平板支撐 (Plank)",
             img: "Plank",
-            sets: 3,
-            reps: "30 秒",
             videoURL: URL(string: "https://www.youtube.com/watch?v=YtFrzTIOkqQ"),
             description: "",
             muscleGroups: "核心肌群",
@@ -60,8 +52,6 @@ struct ExerciseData {
         Exercise(
             name: "硬舉 (Deadlifts)",
             img: "Deadlift",
-            sets: 3,
-            reps: "8 次",
             videoURL: URL(string: "https://www.youtube.com/watch?v=4rTdWgQbei0"),
             description: "",
             muscleGroups: "腿後肌群、臀大肌、下背",
@@ -72,8 +62,6 @@ struct ExerciseData {
         Exercise(
             name: "臥推 (Bench Press)",
             img: "Bench press",
-            sets: 4,
-            reps: "8 次",
             videoURL: URL(string: "https://www.youtube.com/watch?v=H6hCNnZEfl4"),
             description: "",
             muscleGroups: "胸肌、三頭肌、三角肌前束",
@@ -84,8 +72,6 @@ struct ExerciseData {
         Exercise(
             name: "引體向上 (Pull-ups)",
             img: "Pull-ups",
-            sets: 3,
-            reps: "力竭",
             videoURL: URL(string: "https://www.youtube.com/watch?v=71UofCP10lc"),
             description: "",
             muscleGroups: "背闊肌、二頭肌",
@@ -96,8 +82,6 @@ struct ExerciseData {
         Exercise(
             name: "肩推 (Overhead Press)",
             img: "Shoulder press",
-            sets: 3,
-            reps: "10 次",
             videoURL: URL(string: "https://www.youtube.com/watch?v=q4PT0UHyW9Q"),
             description: "",
             muscleGroups: "三角肌、三頭肌",
@@ -108,8 +92,6 @@ struct ExerciseData {
         Exercise(
             name: "划船 (Barbell Row)",
             img: "Row",
-            sets: 3,
-            reps: "10 次",
             videoURL: URL(string: "https://www.youtube.com/watch?v=UKLR1ol0_Nw"),
             description: "",
             muscleGroups: "背闊肌、中背、二頭肌",
@@ -121,8 +103,6 @@ struct ExerciseData {
         Exercise(
             name: "前蹲舉 (Front Squats)",
             img: "Front squat",
-            sets: 4,
-            reps: "6 次",
             videoURL: URL(string: "https://www.youtube.com/watch?v=nmUof3vszxM"),
             description: "",
             muscleGroups: "股四頭肌、核心",
@@ -133,8 +113,6 @@ struct ExerciseData {
         Exercise(
             name: "上斜臥推 (Incline Press)",
             img: "Incline bench press",
-            sets: 4,
-            reps: "8 次",
             videoURL: URL(string: "https://www.youtube.com/watch?v=aWzskio2104"),
             description: "",
             muscleGroups: "胸肌、三頭肌、三角肌前束",
@@ -145,8 +123,6 @@ struct ExerciseData {
         Exercise(
             name: "爆發上膊 (Power Cleans)",
             img: "Power clean",
-            sets: 3,
-            reps: "5 次",
             videoURL: URL(string: "https://www.youtube.com/watch?v=KwYJTpQ_x5A"),
             description: "",
             muscleGroups: "全身協調、爆發力、腿部、背部、肩部",
@@ -157,8 +133,6 @@ struct ExerciseData {
         Exercise(
             name: "羅馬尼亞硬舉 (Romanian Deadlifts)",
             img: "Romanian deadlift",
-            sets: 3,
-            reps: "10 次",
             videoURL: URL(string: "https://www.youtube.com/watch?v=EHXbjmWqLAg"),
             description: "",
             muscleGroups: "腿後肌群、臀大肌、下背",
@@ -169,8 +143,6 @@ struct ExerciseData {
         Exercise(
             name: "雙槓撐體 (Dips)",
             img: "Parallel bar push-ups", // 使用列表中最接近的圖片
-            sets: 3,
-            reps: "力竭",
             videoURL: URL(string: "https://www.youtube.com/watch?v=9vKlFeQg3nM"),
             description: "",
             muscleGroups: "三頭肌、胸肌、三角肌前束",
@@ -181,8 +153,6 @@ struct ExerciseData {
         Exercise(
             name: "農夫走路 (Farmer's Walk)",
             img: "Farmer_s walk",
-            sets: 3,
-            reps: "50 公尺",
             videoURL: URL(string: "https://www.youtube.com/watch?v=315xVOcaBUg"),
             description: "",
             muscleGroups: "前臂、核心、斜方肌",
@@ -193,8 +163,6 @@ struct ExerciseData {
         Exercise(
             name: "壺鈴擺盪 (Kettlebell Swings)",
             img: "Kettlebell swing",
-            sets: 3,
-            reps: "15 次",
             videoURL: URL(string: "https://www.youtube.com/watch?v=t7_N0nQqK6c"),
             description: "",
             muscleGroups: "臀大肌、腿後肌群、核心",
@@ -210,30 +178,145 @@ struct ExerciseData {
         }
     }
     
-    static let beginnerWorkout = Workout(
-        name: "新手全身訓練 A",
-        description: "5 個動作・約 45 分鐘",
+    // MARK: - 新手等級 (Beginner)
+    // A: 燃燒脂肪 (高反覆次數)
+    static let beginnerFatBurn = Workout(
+        name: "新手燃脂訓練 A",
+        description: "高反覆次數・心率提升・使用輕～中重量",
         duration: 45 * 60,
-        calories: 320,
+        calories: 350,
         level: "基礎",
-        exercises: getExercises(by: ["深蹲 (Squats)", "伏地挺身 (Pushups)", "啞鈴划船 (Dumbbell Row)", "平板支撐 (Plank)"]).map { WorkoutExercise(exercise: $0, sets: $0.sets) }
+        exercises: getExercises(by: ["深蹲 (Squats)", "伏地挺身 (Pushups)", "啞鈴划船 (Dumbbell Row)", "平板支撐 (Plank)"])
+            .map { WorkoutExercise(exercise: $0, sets: 4, reps: "15 次") }
     )
     
-    static let intermediateWorkout = Workout(
-        name: "中級肌力訓練 B",
-        description: "6 個動作・約 60 分鐘",
+    // B: 增強肌力 (標準次數、長休息、標準組數)
+    static let beginnerStrength = Workout(
+        name: "新手肌力訓練 B",
+        description: "基礎動作・專注發力・使用中～重重量",
+        duration: 45 * 60,
+        calories: 300,
+        level: "基礎",
+        exercises: getExercises(by: ["深蹲 (Squats)", "伏地挺身 (Pushups)", "啞鈴划船 (Dumbbell Row)", "平板支撐 (Plank)"])
+            .map { WorkoutExercise(exercise: $0, sets: 3, reps: "10 次") }
+    )
+    
+    // C: 保持健康 (低組數、舒適節奏)
+    static let beginnerHealth = Workout(
+        name: "新手健康體適能 C",
+        description: "活動關節・保持健康・使用中重量（舒適）",
+        duration: 30 * 60,
+        calories: 200,
+        level: "基礎",
+        exercises: getExercises(by: ["深蹲 (Squats)", "伏地挺身 (Pushups)", "啞鈴划船 (Dumbbell Row)", "平板支撐 (Plank)"])
+            .map { WorkoutExercise(exercise: $0, sets: 2, reps: "12 次") }
+    )
+    
+    // MARK: - 中級等級 (Intermediate)
+    // 動作池：硬舉, 臥推, 引體向上, 肩推, 划船, 棒式
+    
+    // A: 燃燒脂肪 (加入循環概念)
+    static let intermediateFatBurn = Workout(
+        name: "中級燃脂循環 A",
+        description: "全身循環・高代謝・使用輕～中重量",
+        duration: 50 * 60,
+        calories: 500,
+        level: "中級",
+        exercises: getExercises(by: ["硬舉 (Deadlifts)", "臥推 (Bench Press)", "引體向上 (Pull-ups)", "肩推 (Overhead Press)", "划船 (Barbell Row)", "棒式 (Plank)"])
+            .map { WorkoutExercise(exercise: $0, sets: 4, reps: "12 次") }
+    )
+    
+    // B: 增強肌力 (大重量、低次數)
+    static let intermediateStrength = Workout(
+        name: "中級肌力強化 B",
+        description: "複合動作・力量提升・使用中～重重量",
         duration: 60 * 60,
         calories: 450,
         level: "中級",
-        exercises: getExercises(by: ["硬舉 (Deadlifts)", "臥推 (Bench Press)", "引體向上 (Pull-ups)", "肩推 (Overhead Press)", "划船 (Barbell Row)", "棒式 (Plank)"]).map { WorkoutExercise(exercise: $0, sets: $0.sets) }
+        exercises: getExercises(by: ["硬舉 (Deadlifts)", "臥推 (Bench Press)", "引體向上 (Pull-ups)", "肩推 (Overhead Press)", "划船 (Barbell Row)", "棒式 (Plank)"])
+            .map { WorkoutExercise(exercise: $0, sets: 4, reps: "8 次") }
     )
     
-    static let advancedWorkout = Workout(
-        name: "進階高強度訓練 C",
-        description: "7 個動作・約 75 分鐘",
-        duration: 75 * 60,
-        calories: 600,
-        level: "進階",
-        exercises: getExercises(by: ["前蹲舉 (Front Squats)", "上斜臥推 (Incline Press)", "爆發上膊 (Power Cleans)", "羅馬尼亞硬舉 (Romanian Deadlifts)", "雙槓撐體 (Dips)", "農夫走路 (Farmer's Walk)", "壺鈴擺盪 (Kettlebell Swings)"]).map { WorkoutExercise(exercise: $0, sets: $0.sets) }
+    // C: 保持健康 (標準健身房訓練)
+    static let intermediateHealth = Workout(
+        name: "中級體能維持 C",
+        description: "維持肌量・全身平衡・使用中重量（舒適）",
+        duration: 45 * 60,
+        calories: 350,
+        level: "中級",
+        exercises: getExercises(by: ["硬舉 (Deadlifts)", "臥推 (Bench Press)", "引體向上 (Pull-ups)", "肩推 (Overhead Press)", "划船 (Barbell Row)", "棒式 (Plank)"])
+            .map { WorkoutExercise(exercise: $0, sets: 3, reps: "10 次") }
     )
+    
+    // MARK: - 進階等級 (Advanced)
+    // 動作池：前蹲舉, 上斜臥推, 爆發上膊, 羅馬尼亞硬舉, 雙槓撐體, 農夫走路, 壺鈴擺盪
+    
+    // A: 燃燒脂肪 (高強度間歇/代謝)
+    static let advancedFatBurn = Workout(
+        name: "進階代謝燃燒 A",
+        description: "高強度・爆發耐力・使用輕～中重量",
+        duration: 60 * 60,
+        calories: 650,
+        level: "進階",
+        exercises: getExercises(by: ["前蹲舉 (Front Squats)", "上斜臥推 (Incline Press)", "爆發上膊 (Power Cleans)", "羅馬尼亞硬舉 (Romanian Deadlifts)", "雙槓撐體 (Dips)", "壺鈴擺盪 (Kettlebell Swings)"]) // 移除一個動作以適應高強度
+            .map { WorkoutExercise(exercise: $0, sets: 5, reps: "15 次") }
+    )
+    
+    // B: 增強肌力 (最大肌力)
+    static let advancedStrength = Workout(
+        name: "進階最大肌力 B",
+        description: "極限重量・神經徵招・使用中～重重量",
+        duration: 80 * 60,
+        calories: 550,
+        level: "進階",
+        exercises: getExercises(by: ["前蹲舉 (Front Squats)", "上斜臥推 (Incline Press)", "爆發上膊 (Power Cleans)", "羅馬尼亞硬舉 (Romanian Deadlifts)", "雙槓撐體 (Dips)", "農夫走路 (Farmer's Walk)"])
+            .map { WorkoutExercise(exercise: $0, sets: 5, reps: "5 次") }
+    )
+    
+    // C: 保持健康 (功能性訓練)
+    static let advancedHealth = Workout(
+        name: "進階功能維持 C",
+        description: "功能性・靈活強健・使用中重量（舒適）",
+        duration: 60 * 60,
+        calories: 450,
+        level: "進階",
+        exercises: getExercises(by: ["前蹲舉 (Front Squats)", "上斜臥推 (Incline Press)", "羅馬尼亞硬舉 (Romanian Deadlifts)", "雙槓撐體 (Dips)", "農夫走路 (Farmer's Walk)", "壺鈴擺盪 (Kettlebell Swings)"])
+            .map { WorkoutExercise(exercise: $0, sets: 3, reps: "10 次") }
+    )
+
+    static func getRecommendedWorkout(goal: String, experience: String) -> Workout {
+        let isBeginner = experience.contains("新手")
+        let isIntermediate = experience.contains("中級")
+        let isAdvanced = experience.contains("進階")
+        
+        let isFatLoss = goal == "燃燒脂肪"
+        let isStrength = goal == "增強肌力"
+        let isHealth = goal == "保持健康"
+        
+        if isBeginner {
+            if isFatLoss { return beginnerFatBurn }
+            if isStrength { return beginnerStrength }
+            return beginnerHealth
+        } else if isIntermediate {
+            if isFatLoss { return intermediateFatBurn }
+            if isStrength { return intermediateStrength }
+            return intermediateHealth
+        } else { // Advanced or fallback
+            if isFatLoss { return advancedFatBurn }
+            if isStrength { return advancedStrength }
+            return advancedHealth
+        }
+    }
+    
+    // MARK: - Compatibility Aliases
+    static let beginnerWorkout = beginnerFatBurn
+    static let intermediateWorkout = intermediateFatBurn
+    static let advancedWorkout = advancedFatBurn
+    
+    // MARK: - All Default Workouts
+    static let allDefaultWorkouts: [Workout] = [
+        beginnerFatBurn, beginnerStrength, beginnerHealth,
+        intermediateFatBurn, intermediateStrength, intermediateHealth,
+        advancedFatBurn, advancedStrength, advancedHealth
+    ]
 }

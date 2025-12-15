@@ -57,8 +57,6 @@ struct CreateExerciseView: View {
                             let newExercise = Exercise(
                                 name: exerciseName,
                                 img: "",
-                                sets: 3, // Default value
-                                reps: "10 次", // Default value
                                 videoURL: nil,
                                 description: notes,
                                 muscleGroups: muscleGroups[targetMuscleGroup],

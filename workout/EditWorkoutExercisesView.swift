@@ -32,7 +32,12 @@ struct EditWorkoutExercisesView: View {
                     ForEach($workoutForEditing.exercises) { $exercise in
                         VStack(alignment: .leading) {
                             Text(exercise.exercise.name).font(.headline)
-                            Stepper("組數: \(exercise.sets)", value: $exercise.sets, in: 1...20)
+                            HStack {
+                                Stepper("組數: \(exercise.sets)", value: $exercise.sets, in: 1...20)
+                                TextField("次數", text: $exercise.reps)
+                                    .frame(width: 80)
+                                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                            }
                         }
                     }
                     .onDelete(perform: deleteExercise)

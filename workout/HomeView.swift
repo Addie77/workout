@@ -12,15 +12,10 @@ struct HomeView: View {
     @Binding var selection: Tab
 
     var currentWorkout: Workout {
-        switch userData.experience {
-        case .beginner:
-            return ExerciseData.beginnerWorkout
-        case .intermediate:
-
-            return ExerciseData.intermediateWorkout
-        case .advanced:
-            return ExerciseData.advancedWorkout
-        }
+        return ExerciseData.getRecommendedWorkout(
+            goal: userData.selectedGoal.rawValue,
+            experience: userData.experience.rawValue
+        )
     }
 
     var body: some View {

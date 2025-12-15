@@ -85,7 +85,7 @@ struct WorkoutPlayerView: View {
                         Text("次數")
                             .font(.title)
                             .foregroundColor(.gray)
-                        Text(currentExercise.reps.replacingOccurrences(of: " 次", with: "")) 
+                        Text(currentWorkoutExercise.reps.replacingOccurrences(of: " 次", with: "")) 
                             .font(.system(size: 60, weight: .bold))
                             .foregroundColor(.white)
                     }

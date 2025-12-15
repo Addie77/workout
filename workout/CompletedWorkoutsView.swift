@@ -47,7 +47,7 @@ struct WorkoutLogRow: View {
 
     private var workoutName: String {
         // Find the workout name from both default and custom workouts
-        let allWorkouts = workoutManager.workouts + [ExerciseData.beginnerWorkout, ExerciseData.intermediateWorkout, ExerciseData.advancedWorkout]
+        let allWorkouts = workoutManager.workouts + ExerciseData.allDefaultWorkouts
         return allWorkouts.first { $0.id == log.workoutId }?.name ?? "未知訓練"
     }
 

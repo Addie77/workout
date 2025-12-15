@@ -67,8 +67,6 @@ struct EditExerciseView: View {
                                 id: exercise.id,
                                 name: exerciseName,
                                 img: exercise.img,
-                                sets: exercise.sets,
-                                reps: exercise.reps,
                                 videoURL: exercise.videoURL,
                                 description: notes,
                                 muscleGroups: muscleGroups[targetMuscleGroup],
@@ -90,6 +88,6 @@ struct EditExerciseView: View {
 }
 
 #Preview {
-    EditExerciseView(exercise: Exercise(name: "My Custom Exercise", img: "", sets: 3, reps: "10", videoURL: nil, description: "My notes", muscleGroups: "胸部", instructions: "", commonMistakes: "", category: "胸部"))
+    EditExerciseView(exercise: Exercise(name: "My Custom Exercise", img: "", videoURL: nil, description: "My notes", muscleGroups: "胸部", instructions: "", commonMistakes: "", category: "胸部"))
         .environmentObject(CustomExerciseManager())
 }

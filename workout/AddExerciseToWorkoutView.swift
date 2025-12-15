@@ -49,7 +49,7 @@ struct AddExerciseToWorkoutView: View {
     }
     
     private func addExercise(_ exercise: Exercise) {
-        let newWorkoutExercise = WorkoutExercise(exercise: exercise, sets: 3) // Default to 3 sets
+        let newWorkoutExercise = WorkoutExercise(exercise: exercise, sets: 3, reps: "10 次") // Default to 3 sets
         workoutExercises.append(newWorkoutExercise)
         // Note: This dismisses after adding one exercise.
         // This is a simple UX, user can re-open to add more.

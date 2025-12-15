@@ -19,10 +19,14 @@ struct CreateWorkoutPlanView: View {
                     
                     Section(header: Text("已選動作")) {
                         ForEach($selectedExercises) { $workoutExercise in
-                            HStack {
+                            VStack(alignment: .leading) {
                                 Text(workoutExercise.exercise.name)
-                                Spacer()
-                                Stepper("\(workoutExercise.sets) 組", value: $workoutExercise.sets, in: 1...20)
+                                HStack {
+                                    Stepper("\(workoutExercise.sets) 組", value: $workoutExercise.sets, in: 1...20)
+                                    TextField("次數", text: $workoutExercise.reps)
+                                        .frame(width: 80)
+                                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                                }
                             }
                         }
                         .onMove(perform: move)
@@ -102,7 +106,7 @@ struct AddExerciseToPlanView: View {
                 List(filteredExercises) { exercise in
                     Button(action: {
                         if !selectedExercises.contains(where: { $0.exercise.id == exercise.id }) {
-                            let workoutExercise = WorkoutExercise(exercise: exercise, sets: exercise.sets)
+                            let workoutExercise = WorkoutExercise(exercise: exercise, sets: 3, reps: "10 次")
                             selectedExercises.append(workoutExercise)
                             dismiss()
                         }

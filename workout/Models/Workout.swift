@@ -11,6 +11,7 @@ struct WorkoutExercise: Identifiable, Codable, Hashable {
     var id = UUID()
     let exercise: Exercise
     var sets: Int
+    var reps: String
 }
 
 struct Workout: Identifiable, Codable {
@@ -37,8 +38,6 @@ struct Exercise: Identifiable, Codable, Hashable {
     var id = UUID()
     let name: String
     let img: String
-    let sets: Int
-    let reps: String
     let videoURL: URL?
     let description: String // General description
     let muscleGroups: String
