@@ -60,13 +60,17 @@ struct CreateWorkoutPlanView: View {
     }
     
     private func savePlan() {
-        let setTime: TimeInterval = 30 // seconds
+        let setTime: TimeInterval = 45 // seconds (increased slightly for realistic average)
         let restTime: TimeInterval = 60 // seconds
-        let caloriesPerSet: Double = 5 // calories
 
         let totalSets = selectedExercises.reduce(0) { $0 + $1.sets }
         let totalDuration = TimeInterval(totalSets) * (setTime + restTime)
-        let totalCalories = Double(totalSets) * caloriesPerSet
+        
+        // Calculate total calories based on intensity of each exercise
+        let totalCalories = selectedExercises.reduce(0.0) { result, workoutExercise in
+            let caloriesPerSet = estimateCaloriesPerSet(for: workoutExercise.exercise)
+            return result + (Double(workoutExercise.sets) * caloriesPerSet)
+        }
 
         let newWorkout = Workout(
             name: planName,
@@ -77,6 +81,23 @@ struct CreateWorkoutPlanView: View {
             exercises: selectedExercises
         )
         workoutManager.addWorkout(newWorkout)
+    }
+    
+    private func estimateCaloriesPerSet(for exercise: Exercise) -> Double {
+        // High Intensity / Compound Movements
+        let highIntensityKeywords = ["深蹲", "硬舉", "波比", "循環", "Squat", "Deadlift", "Burpee", "Clean", "全身"]
+        if highIntensityKeywords.contains(where: { exercise.name.contains($0) || exercise.muscleGroups.contains($0) }) {
+            return 10.0 // ~10 calories per set
+        }
+        
+        // Medium Intensity / Multi-joint Movements
+        let mediumIntensityKeywords = ["臥推", "划船", "肩推", "下拉", "引體向上", "Bench", "Row", "Press", "Pull-up", "胸", "背", "腿"]
+        if mediumIntensityKeywords.contains(where: { exercise.name.contains($0) || exercise.muscleGroups.contains($0) }) {
+            return 7.0 // ~7 calories per set
+        }
+        
+        // Low Intensity / Isolation / Core Movements (Default)
+        return 4.0 // ~4 calories per set
     }
 }
 
