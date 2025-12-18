@@ -86,14 +86,18 @@ struct CreateWorkoutPlanView: View {
     private func estimateCaloriesPerSet(for exercise: Exercise) -> Double {
         // High Intensity / Compound Movements
         let highIntensityKeywords = ["深蹲", "硬舉", "波比", "循環", "Squat", "Deadlift", "Burpee", "Clean", "全身"]
-        if highIntensityKeywords.contains(where: { exercise.name.contains($0) || exercise.muscleGroups.contains($0) }) {
-            return 10.0 // ~10 calories per set
+        for keyword in highIntensityKeywords {
+            if exercise.name.contains(keyword) || exercise.muscleGroups.contains(keyword) {
+                return 10.0 // ~10 calories per set
+            }
         }
         
         // Medium Intensity / Multi-joint Movements
         let mediumIntensityKeywords = ["臥推", "划船", "肩推", "下拉", "引體向上", "Bench", "Row", "Press", "Pull-up", "胸", "背", "腿"]
-        if mediumIntensityKeywords.contains(where: { exercise.name.contains($0) || exercise.muscleGroups.contains($0) }) {
-            return 7.0 // ~7 calories per set
+        for keyword in mediumIntensityKeywords {
+            if exercise.name.contains(keyword) || exercise.muscleGroups.contains(keyword) {
+                return 7.0 // ~7 calories per set
+            }
         }
         
         // Low Intensity / Isolation / Core Movements (Default)
@@ -186,10 +190,16 @@ struct CreateWorkoutPlanView_Previews: PreviewProvider {
 }
 
 struct AddExerciseToPlanView_Previews: PreviewProvider {
-    @State static var exercises: [WorkoutExercise] = []
+    struct PreviewWrapper: View {
+        @State private var exercises: [WorkoutExercise] = []
+        
+        var body: some View {
+            AddExerciseToPlanView(selectedExercises: $exercises)
+                .environmentObject(CustomExerciseManager())
+        }
+    }
     
     static var previews: some View {
-        AddExerciseToPlanView(selectedExercises: $exercises)
-            .environmentObject(CustomExerciseManager())
+        PreviewWrapper()
     }
 }

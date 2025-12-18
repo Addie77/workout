@@ -59,9 +59,20 @@ struct WorkoutRow: View {
         VStack(alignment: .leading) {
             Text(workout.name)
                 .font(.headline)
-            Text("\(workout.exercises.count) 個動作")
-                .font(.subheadline)
-                .foregroundColor(.secondary)
+            HStack {
+                Text(workout.level)
+                    .font(.caption)
+                    .fontWeight(.bold)
+                    .padding(.horizontal, 8)
+                    .padding(.vertical, 4)
+                    .background(Color.blue.opacity(0.1))
+                    .foregroundColor(.blue)
+                    .cornerRadius(8)
+                
+                Text("\(workout.exercises.count) 個動作")
+                    .font(.subheadline)
+                    .foregroundColor(.secondary)
+            }
         }
         .padding(.vertical, 8)
     }

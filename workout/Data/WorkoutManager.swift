@@ -43,10 +43,19 @@ class WorkoutManager: ObservableObject {
         if let data = UserDefaults.standard.data(forKey: workoutsKey) {
             if let decoded = try? JSONDecoder().decode([Workout].self, from: data) {
                 self.workouts = decoded
+                // Check if the loaded workouts list is empty. If so, seed with default workouts.
+                // This handles the case where the user has no plans (e.g., deleted all or fresh install with empty state saved).
+                if self.workouts.isEmpty {
+                    self.workouts = ExerciseData.allDefaultWorkouts
+                    saveWorkouts()
+                }
                 return
             }
         }
-        self.workouts = []
+        // No data found in UserDefaults (First launch)
+        self.workouts = ExerciseData.allDefaultWorkouts
+        saveWorkouts()
     }
 }
+
 

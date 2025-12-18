@@ -5,7 +5,8 @@ struct CreateExerciseView: View {
     @EnvironmentObject var customExerciseManager: CustomExerciseManager
     @State private var exerciseName: String = ""
     @State private var targetMuscleGroup: Int = 0
-    @State private var notes: String = ""
+    @State private var instructions: String = ""
+    @State private var commonMistakes: String = ""
     @State private var showAlert: Bool = false
     
     let muscleGroups = ["腿部", "胸部", "背部", "手臂", "核心", "其他"]
@@ -36,9 +37,14 @@ struct CreateExerciseView: View {
                     .cornerRadius(10)
                 }
                 
-                Section(header: Text("個人筆記 (可選)")) {
-                    TextEditor(text: $notes)
-                        .frame(height: 150)
+                Section(header: Text("動作指引")) {
+                    TextEditor(text: $instructions)
+                        .frame(height: 100)
+                }
+                
+                Section(header: Text("常見錯誤")) {
+                    TextEditor(text: $commonMistakes)
+                        .frame(height: 100)
                 }
             }
             .navigationTitle("建立新動作")
@@ -58,10 +64,10 @@ struct CreateExerciseView: View {
                                 name: exerciseName,
                                 img: "",
                                 videoURL: nil,
-                                description: notes,
+                                description: "", // Set description to empty, as instructions/mistakes are separate
                                 muscleGroups: muscleGroups[targetMuscleGroup],
-                                instructions: "", // Or some default
-                                commonMistakes: "", // Or some default
+                                instructions: instructions, // Use instructions state variable
+                                commonMistakes: commonMistakes, // Use commonMistakes state variable
                                 category: muscleGroups[targetMuscleGroup]
                             )
                             customExerciseManager.addExercise(newExercise)

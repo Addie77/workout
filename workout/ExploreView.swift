@@ -32,6 +32,8 @@ struct ExploreView: View {
         }
     }
     
+    @State private var isEditing = false // Add state for editing mode
+
     var body: some View {
         NavigationView {
             ScrollView {
@@ -114,8 +116,21 @@ struct ExploreView: View {
                                             .background(Color(UIColor.systemGroupedBackground))
                                         ) {
                                             ForEach(customExerciseManager.customExercises.filter { $0.category == category }) { exercise in
-                                                NavigationLink(destination: ExerciseDetailView(exercise: exercise)) {
-                                                    ExerciseRow(exercise: exercise)
+                                                HStack {
+                                                    if isEditing {
+                                                        Button(action: {
+                                                            customExerciseManager.deleteExercises(ids: [exercise.id])
+                                                        }) {
+                                                            Image(systemName: "minus.circle.fill")
+                                                                .foregroundColor(.red)
+                                                                .font(.title2)
+                                                                .padding(.leading)
+                                                        }
+                                                    }
+                                                    
+                                                    NavigationLink(destination: ExerciseDetailView(exercise: exercise)) {
+                                                        ExerciseRow(exercise: exercise)
+                                                    }
                                                 }
                                                 Divider()
                                             }
@@ -132,7 +147,7 @@ struct ExploreView: View {
                                 Text("找不到符合 \"\(searchText)\" 的動作")
                                     .foregroundColor(.secondary)
                                     .padding()
-                                Spacer()
+                                    Spacer()
                             }
                         } else {
                             LazyVStack(spacing: 0) {
@@ -148,10 +163,21 @@ struct ExploreView: View {
                 } // End of VStack
                 .navigationTitle("探索")
                 .toolbar {
-                    ToolbarItemGroup(placement: .navigationBarTrailing) {
-                        if selectedSegment == 1 && searchText.isEmpty {
-                            // EditButton() // EditButton doesn't work with VStack
+                    ToolbarItem(placement: .navigationBarLeading) {
+                        if selectedSegment == 1 && searchText.isEmpty && !customExerciseManager.customExercises.isEmpty {
                             Button(action: {
+                                withAnimation {
+                                    isEditing.toggle()
+                                }
+                            }) {
+                                Text(isEditing ? "Done" : "Edit")
+                            }
+                        }
+                    }
+                    
+                    ToolbarItemGroup(placement: .navigationBarTrailing) {
+                        if selectedSegment == 1 && searchText.isEmpty && !isEditing {
+                             Button(action: {
                                 documentToExport = ExerciseDocument(exercises: customExerciseManager.customExercises)
                                 showingExporter = true
                             }) {
@@ -159,11 +185,13 @@ struct ExploreView: View {
                             }
                         }
                         
-                        Button(action: {
-                            showingCreateExerciseView = true
-                        }) {
-                            Image(systemName: "plus.circle.fill")
-                                .font(.title2)
+                        if !isEditing {
+                            Button(action: {
+                                showingCreateExerciseView = true
+                            }) {
+                                Image(systemName: "plus.circle.fill")
+                                    .font(.title2)
+                            }
                         }
                     }
                 }
@@ -176,6 +204,11 @@ struct ExploreView: View {
                         print("Saved to \(url)")
                     case .failure(let error):
                         print("Failed to save: \(error.localizedDescription)")
+                    }
+                }
+                .onChange(of: customExerciseManager.customExercises) { exercises in
+                    if exercises.isEmpty {
+                        isEditing = false
                     }
                 }
             }

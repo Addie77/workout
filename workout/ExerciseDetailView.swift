@@ -65,7 +65,7 @@ struct ExerciseDetailView: View {
                             .padding(.top, 4)
                         } else {
                             // Placeholder for when videoURL is nil
-                            Link(destination: URL(string: "https://www.youtube.com/watch?v=2J9zsFwhF2Q")!) { // 使用替代文字的 URL
+                            Link(destination: URL(string: "https://www.youtube.com/watch?v=dQw4w9WgXcQ&list=RDdQw4w9WgXcQ&start_radio=1")!) { // 使用替代文字的 URL
                                 HStack {
                                     Image(systemName: "play.fill")
                                     Text("觀看動作示範影片 (暫無連結)")
