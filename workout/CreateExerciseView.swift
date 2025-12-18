@@ -1,4 +1,5 @@
 import SwiftUI
+import PhotosUI
 
 struct CreateExerciseView: View {
     @Environment(\.dismiss) var dismiss
@@ -8,6 +9,10 @@ struct CreateExerciseView: View {
     @State private var instructions: String = ""
     @State private var commonMistakes: String = ""
     @State private var showAlert: Bool = false
+    
+    @State private var selectedItem: PhotosPickerItem?
+    @State private var selectedImage: UIImage? // Keep UIImage for preview
+    @State private var selectedImageBase64: String? // Store Base64 string for Exercise model
     
     let muscleGroups = ["腿部", "胸部", "背部", "手臂", "核心", "其他"]
 
@@ -24,17 +29,43 @@ struct CreateExerciseView: View {
                     }
                 }
                 
-                Section(header: Text("動作教學 (可選)")) {
+                Section(header: Text("動作圖片 (可選)")) {
                     VStack {
-                        Image(systemName: "photo.on.rectangle.angled")
-                            .font(.largeTitle)
-                            .padding()
-                        Text("上傳圖片或影片")
-                            .font(.headline)
+                        if let selectedImage = selectedImage {
+                            Image(uiImage: selectedImage)
+                                .resizable()
+                                .scaledToFit()
+                                .frame(height: 200)
+                                .cornerRadius(10)
+                        } else {
+                            Image(systemName: "photo.on.rectangle.angled")
+                                .font(.largeTitle)
+                                .padding()
+                                .foregroundColor(.gray)
+                        }
+                        
+                        PhotosPicker(selection: $selectedItem, matching: .images) {
+                            Text(selectedImage == nil ? "上傳圖片" : "更換圖片")
+                                .font(.headline)
+                                .padding(.vertical, 8)
+                                .frame(maxWidth: .infinity)
+                        }
+                        .onChange(of: selectedItem) { newItem in
+                            Task {
+                                if let data = try? await newItem?.loadTransferable(type: Data.self) {
+                                    selectedImage = UIImage(data: data)
+                                    selectedImageBase64 = data.base64EncodedString()
+                                } else {
+                                    selectedImage = nil
+                                    selectedImageBase64 = nil
+                                }
+                            }
+                        }
                     }
                     .frame(maxWidth: .infinity, minHeight: 150)
                     .background(Color(UIColor.systemGray6))
                     .cornerRadius(10)
+                    .padding(.vertical, 8)
                 }
                 
                 Section(header: Text("動作指引")) {
@@ -62,12 +93,13 @@ struct CreateExerciseView: View {
                         } else {
                             let newExercise = Exercise(
                                 name: exerciseName,
-                                img: "",
+                                assetImageName: nil, // Newly created custom exercises will use userImageBase64
+                                userImageBase64: selectedImageBase64,
                                 videoURL: nil,
-                                description: "", // Set description to empty, as instructions/mistakes are separate
+                                description: "",
                                 muscleGroups: muscleGroups[targetMuscleGroup],
-                                instructions: instructions, // Use instructions state variable
-                                commonMistakes: commonMistakes, // Use commonMistakes state variable
+                                instructions: instructions,
+                                commonMistakes: commonMistakes,
                                 category: muscleGroups[targetMuscleGroup]
                             )
                             customExerciseManager.addExercise(newExercise)

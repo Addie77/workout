@@ -116,23 +116,10 @@ struct ExerciseRow: View {
 
     var body: some View {
         HStack(spacing: 16) {
-            Group {
-                if UIImage(named: exercise.img) != nil {
-                    Image(exercise.img)
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                        .frame(width: 64, height: 64)
-                        .clipped()
-                        .cornerRadius(10)
-                } else {
-                    Text(String(exercise.name.prefix(2)))
-                        .font(.title)
-                        .frame(width: 64, height: 64)
-                        .background(Color.blue.opacity(0.1))
-                        .cornerRadius(10)
-                        .foregroundColor(.blue)
-                }
-            }
+            ExerciseImageView(assetImageName: exercise.assetImageName, userImageBase64: exercise.userImageBase64)
+                .frame(width: 64, height: 64)
+                .clipped()
+                .cornerRadius(10)
 
             VStack(alignment: .leading) {
                 Text(exercise.name)

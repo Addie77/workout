@@ -62,8 +62,7 @@ struct WorkoutPlayerView: View {
                 Button(action: {
                     showingExerciseDetail = true
                 }) {
-                    Image(currentExercise.img)
-                        .resizable()
+                    ExerciseImageView(assetImageName: currentExercise.assetImageName, userImageBase64: currentExercise.userImageBase64)
                         .aspectRatio(contentMode: .fit)
                         .cornerRadius(20)
                         .padding()

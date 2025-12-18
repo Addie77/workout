@@ -14,6 +14,7 @@ struct ExploreView: View {
     @State private var showingCreateExerciseView = false
     @EnvironmentObject var customExerciseManager: CustomExerciseManager
     @State private var showingExporter = false
+    @State private var showingImporter = false
     @State private var documentToExport: ExerciseDocument?
     
     private var allAvailableExercises: [Exercise] {
@@ -178,6 +179,12 @@ struct ExploreView: View {
                     ToolbarItemGroup(placement: .navigationBarTrailing) {
                         if selectedSegment == 1 && searchText.isEmpty && !isEditing {
                              Button(action: {
+                                showingImporter = true
+                            }) {
+                                Image(systemName: "square.and.arrow.down")
+                            }
+                            
+                             Button(action: {
                                 documentToExport = ExerciseDocument(exercises: customExerciseManager.customExercises)
                                 showingExporter = true
                             }) {
@@ -204,6 +211,23 @@ struct ExploreView: View {
                         print("Saved to \(url)")
                     case .failure(let error):
                         print("Failed to save: \(error.localizedDescription)")
+                    }
+                }
+                .fileImporter(isPresented: $showingImporter, allowedContentTypes: [.json]) { result in
+                    switch result {
+                    case .success(let url):
+                        do {
+                            if url.startAccessingSecurityScopedResource() {
+                                defer { url.stopAccessingSecurityScopedResource() }
+                                let data = try Data(contentsOf: url)
+                                let exercises = try JSONDecoder().decode([Exercise].self, from: data)
+                                customExerciseManager.addExercises(exercises)
+                            }
+                        } catch {
+                            print("Failed to import: \(error.localizedDescription)")
+                        }
+                    case .failure(let error):
+                        print("Failed to import: \(error.localizedDescription)")
                     }
                 }
                 .onChange(of: customExerciseManager.customExercises) { exercises in

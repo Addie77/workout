@@ -1,4 +1,5 @@
 import SwiftUI
+import PhotosUI
 
 struct EditExerciseView: View {
     @Environment(\.dismiss) var dismiss
@@ -6,8 +7,13 @@ struct EditExerciseView: View {
     
     @State private var exerciseName: String
     @State private var targetMuscleGroup: Int
-    @State private var notes: String
+    @State private var instructions: String
+    @State private var commonMistakes: String
     @State private var showAlert: Bool = false
+    
+    @State private var selectedItem: PhotosPickerItem?
+    @State private var selectedImage: UIImage? // For previewing selected image
+    @State private var selectedImageBase64: String? // Store Base64 string for Exercise model
     
     let exercise: Exercise
     let muscleGroups = ["腿部", "胸部", "背部", "手臂", "核心", "其他"]
@@ -15,8 +21,23 @@ struct EditExerciseView: View {
     init(exercise: Exercise) {
         self.exercise = exercise
         _exerciseName = State(initialValue: exercise.name)
-        _notes = State(initialValue: exercise.description)
-        _targetMuscleGroup = State(initialValue: muscleGroups.firstIndex(of: exercise.muscleGroups) ?? 0)
+        _instructions = State(initialValue: exercise.instructions)
+        _commonMistakes = State(initialValue: exercise.commonMistakes)
+        _selectedImageBase64 = State(initialValue: exercise.userImageBase64)
+        
+        // Load initial image for preview if it exists
+        if let base64String = exercise.userImageBase64,
+           let data = Data(base64Encoded: base64String),
+           let uiImage = UIImage(data: data) {
+            _selectedImage = State(initialValue: uiImage)
+        }
+        
+        let groups = ["腿部", "胸部", "背部", "手臂", "核心", "其他"]
+        if let index = groups.firstIndex(of: exercise.muscleGroups) {
+             _targetMuscleGroup = State(initialValue: index)
+        } else {
+             _targetMuscleGroup = State(initialValue: 0)
+        }
     }
 
     var body: some View {
@@ -32,22 +53,60 @@ struct EditExerciseView: View {
                     }
                 }
                 
-                Section(header: Text("動作教學 (可選)")) {
+                Section(header: Text("動作圖片 (可選)")) {
                     VStack {
-                        Image(systemName: "photo.on.rectangle.angled")
-                            .font(.largeTitle)
-                            .padding()
-                        Text("上傳圖片或影片")
-                            .font(.headline)
+                        if let selectedImage = selectedImage {
+                            Image(uiImage: selectedImage)
+                                .resizable()
+                                .scaledToFit()
+                                .frame(height: 200)
+                                .cornerRadius(10)
+                        } else {
+                            // Show existing image if available and no new image selected
+                            if exercise.userImageBase64 != nil || exercise.assetImageName != nil {
+                                ExerciseImageView(assetImageName: exercise.assetImageName, userImageBase64: exercise.userImageBase64)
+                                    .frame(height: 200)
+                                    .cornerRadius(10)
+                            } else {
+                                Image(systemName: "photo.on.rectangle.angled")
+                                    .font(.largeTitle)
+                                    .padding()
+                                    .foregroundColor(.gray)
+                            }
+                        }
+                        
+                        PhotosPicker(selection: $selectedItem, matching: .images) {
+                            Text(selectedImage == nil && (exercise.userImageBase64 == nil && exercise.assetImageName == nil) ? "上傳圖片" : "更換圖片")
+                                .font(.headline)
+                                .padding(.vertical, 8)
+                                .frame(maxWidth: .infinity)
+                        }
+                        .onChange(of: selectedItem) { newItem in
+                            Task {
+                                if let data = try? await newItem?.loadTransferable(type: Data.self) {
+                                    selectedImage = UIImage(data: data)
+                                    selectedImageBase64 = data.base64EncodedString()
+                                } else {
+                                    selectedImage = nil
+                                    selectedImageBase64 = nil
+                                }
+                            }
+                        }
                     }
                     .frame(maxWidth: .infinity, minHeight: 150)
                     .background(Color(UIColor.systemGray6))
                     .cornerRadius(10)
+                    .padding(.vertical, 8)
                 }
                 
-                Section(header: Text("個人筆記 (可選)")) {
-                    TextEditor(text: $notes)
-                        .frame(height: 150)
+                Section(header: Text("動作指引")) {
+                    TextEditor(text: $instructions)
+                        .frame(height: 100)
+                }
+                
+                Section(header: Text("常見錯誤")) {
+                    TextEditor(text: $commonMistakes)
+                        .frame(height: 100)
                 }
             }
             .navigationTitle("編輯動作")
@@ -66,12 +125,13 @@ struct EditExerciseView: View {
                             let updatedExercise = Exercise(
                                 id: exercise.id,
                                 name: exerciseName,
-                                img: exercise.img,
+                                assetImageName: exercise.assetImageName, // Keep original asset name if it exists
+                                userImageBase64: selectedImageBase64, // Use newly selected or existing base64
                                 videoURL: exercise.videoURL,
-                                description: notes,
+                                description: "",
                                 muscleGroups: muscleGroups[targetMuscleGroup],
-                                instructions: exercise.instructions,
-                                commonMistakes: exercise.commonMistakes,
+                                instructions: instructions,
+                                commonMistakes: commonMistakes,
                                 category: muscleGroups[targetMuscleGroup]
                             )
                             customExerciseManager.updateExercise(updatedExercise)
@@ -88,6 +148,6 @@ struct EditExerciseView: View {
 }
 
 #Preview {
-    EditExerciseView(exercise: Exercise(name: "My Custom Exercise", img: "", videoURL: nil, description: "My notes", muscleGroups: "胸部", instructions: "", commonMistakes: "", category: "胸部"))
+    EditExerciseView(exercise: Exercise(name: "My Custom Exercise", assetImageName: nil, userImageBase64: nil, videoURL: nil, description: "My notes", muscleGroups: "胸部", instructions: "Step 1...", commonMistakes: "Don't do this...", category: "胸部"))
         .environmentObject(CustomExerciseManager())
 }

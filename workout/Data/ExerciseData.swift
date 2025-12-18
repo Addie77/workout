@@ -11,7 +11,8 @@ struct ExerciseData {
     static let allExercises: [Exercise] = [
         Exercise(
             name: "深蹲 (Squats)",
-            img: "exercise-detail-banner", // 列表中沒有單純的 "Squat.jpg"，暫時保留預設圖
+            assetImageName: "exercise-detail-banner",
+            userImageBase64: nil,
             videoURL: URL(string: "https://www.youtube.com/watch?v=2J9zsFwhF2Q"),
             description: "",
             muscleGroups: "股四頭肌、臀大肌",
@@ -21,7 +22,8 @@ struct ExerciseData {
         ),
         Exercise(
             name: "伏地挺身 (Pushups)",
-            img: "Push-ups",
+            assetImageName: "Push-ups",
+            userImageBase64: nil,
             videoURL: URL(string: "https://www.youtube.com/watch?v=gIrS4_UW5Fg"),
             description: "",
             muscleGroups: "胸肌、三頭肌、三角肌前束",
@@ -31,7 +33,8 @@ struct ExerciseData {
         ),
         Exercise(
             name: "啞鈴划船 (Dumbbell Row)",
-            img: "Dumbbell rows",
+            assetImageName: "Dumbbell rows",
+            userImageBase64: nil,
             videoURL: URL(string: "https://www.youtube.com/watch?v=mwyC_CLTHwE"),
             description: "",
             muscleGroups: "背闊肌、二頭肌、三角肌後束",
@@ -41,7 +44,8 @@ struct ExerciseData {
         ),
         Exercise(
             name: "平板支撐 (Plank)",
-            img: "Plank",
+            assetImageName: "Plank",
+            userImageBase64: nil,
             videoURL: URL(string: "https://www.youtube.com/watch?v=YtFrzTIOkqQ"),
             description: "",
             muscleGroups: "核心肌群",
@@ -51,7 +55,8 @@ struct ExerciseData {
         ),
         Exercise(
             name: "硬舉 (Deadlifts)",
-            img: "Deadlift",
+            assetImageName: "Deadlift",
+            userImageBase64: nil,
             videoURL: URL(string: "https://www.youtube.com/watch?v=4rTdWgQbei0"),
             description: "",
             muscleGroups: "腿後肌群、臀大肌、下背",
@@ -61,7 +66,8 @@ struct ExerciseData {
         ),
         Exercise(
             name: "臥推 (Bench Press)",
-            img: "Bench press",
+            assetImageName: "Bench press",
+            userImageBase64: nil,
             videoURL: URL(string: "https://www.youtube.com/watch?v=H6hCNnZEfl4"),
             description: "",
             muscleGroups: "胸肌、三頭肌、三角肌前束",
@@ -71,7 +77,8 @@ struct ExerciseData {
         ),
         Exercise(
             name: "引體向上 (Pull-ups)",
-            img: "Pull-ups",
+            assetImageName: "Pull-ups",
+            userImageBase64: nil,
             videoURL: URL(string: "https://www.youtube.com/watch?v=71UofCP10lc"),
             description: "",
             muscleGroups: "背闊肌、二頭肌",
@@ -81,7 +88,8 @@ struct ExerciseData {
         ),
         Exercise(
             name: "肩推 (Overhead Press)",
-            img: "Shoulder press",
+            assetImageName: "Shoulder press",
+            userImageBase64: nil,
             videoURL: URL(string: "https://www.youtube.com/watch?v=q4PT0UHyW9Q"),
             description: "",
             muscleGroups: "三角肌、三頭肌",
@@ -91,7 +99,8 @@ struct ExerciseData {
         ),
         Exercise(
             name: "划船 (Barbell Row)",
-            img: "Row",
+            assetImageName: "Row",
+            userImageBase64: nil,
             videoURL: URL(string: "https://www.youtube.com/watch?v=UKLR1ol0_Nw"),
             description: "",
             muscleGroups: "背闊肌、中背、二頭肌",
@@ -102,7 +111,8 @@ struct ExerciseData {
         
         Exercise(
             name: "前蹲舉 (Front Squats)",
-            img: "Front squat",
+            assetImageName: "Front squat",
+            userImageBase64: nil,
             videoURL: URL(string: "https://www.youtube.com/watch?v=nmUof3vszxM"),
             description: "",
             muscleGroups: "股四頭肌、核心",
@@ -112,7 +122,8 @@ struct ExerciseData {
         ),
         Exercise(
             name: "上斜臥推 (Incline Press)",
-            img: "Incline bench press",
+            assetImageName: "Incline bench press",
+            userImageBase64: nil,
             videoURL: URL(string: "https://www.youtube.com/watch?v=aWzskio2104"),
             description: "",
             muscleGroups: "胸肌、三頭肌、三角肌前束",
@@ -122,7 +133,8 @@ struct ExerciseData {
         ),
         Exercise(
             name: "爆發上膊 (Power Cleans)",
-            img: "Power clean",
+            assetImageName: "Power clean",
+            userImageBase64: nil,
             videoURL: URL(string: "https://www.youtube.com/watch?v=KwYJTpQ_x5A"),
             description: "",
             muscleGroups: "全身協調、爆發力、腿部、背部、肩部",
@@ -132,7 +144,8 @@ struct ExerciseData {
         ),
         Exercise(
             name: "羅馬尼亞硬舉 (Romanian Deadlifts)",
-            img: "Romanian deadlift",
+            assetImageName: "Romanian deadlift",
+            userImageBase64: nil,
             videoURL: URL(string: "https://www.youtube.com/watch?v=EHXbjmWqLAg"),
             description: "",
             muscleGroups: "腿後肌群、臀大肌、下背",
@@ -142,7 +155,8 @@ struct ExerciseData {
         ),
         Exercise(
             name: "雙槓撐體 (Dips)",
-            img: "Parallel bar push-ups", // 使用列表中最接近的圖片
+            assetImageName: "Parallel bar push-ups", // 使用列表中最接近的圖片
+            userImageBase64: nil,
             videoURL: URL(string: "https://www.youtube.com/watch?v=9vKlFeQg3nM"),
             description: "",
             muscleGroups: "三頭肌、胸肌、三角肌前束",
@@ -152,7 +166,8 @@ struct ExerciseData {
         ),
         Exercise(
             name: "農夫走路 (Farmer's Walk)",
-            img: "Farmer_s walk",
+            assetImageName: "Farmer_s walk",
+            userImageBase64: nil,
             videoURL: URL(string: "https://www.youtube.com/watch?v=315xVOcaBUg"),
             description: "",
             muscleGroups: "前臂、核心、斜方肌",
@@ -162,7 +177,8 @@ struct ExerciseData {
         ),
         Exercise(
             name: "壺鈴擺盪 (Kettlebell Swings)",
-            img: "Kettlebell swing",
+            assetImageName: "Kettlebell swing",
+            userImageBase64: nil,
             videoURL: URL(string: "https://www.youtube.com/watch?v=t7_N0nQqK6c"),
             description: "",
             muscleGroups: "臀大肌、腿後肌群、核心",
