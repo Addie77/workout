@@ -37,11 +37,26 @@ struct Workout: Identifiable, Codable {
 struct Exercise: Identifiable, Codable, Hashable {
     var id = UUID()
     let name: String
-    let img: String
+    let assetImageName: String? // For built-in images from Assets.xcassets
+    let userImageBase64: String? // For user-uploaded images (Base64 encoded)
     let videoURL: URL?
     let description: String // General description
     let muscleGroups: String
     let instructions: String
     let commonMistakes: String
     let category: String
+    
+    // Custom initializer to handle both types of images
+    init(id: UUID = UUID(), name: String, assetImageName: String? = nil, userImageBase64: String? = nil, videoURL: URL?, description: String, muscleGroups: String, instructions: String, commonMistakes: String, category: String) {
+        self.id = id
+        self.name = name
+        self.assetImageName = assetImageName
+        self.userImageBase64 = userImageBase64
+        self.videoURL = videoURL
+        self.description = description
+        self.muscleGroups = muscleGroups
+        self.instructions = instructions
+        self.commonMistakes = commonMistakes
+        self.category = category
+    }
 }

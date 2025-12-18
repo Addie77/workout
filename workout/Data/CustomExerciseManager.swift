@@ -22,6 +22,11 @@ class CustomExerciseManager: ObservableObject {
         saveCustomExercises()
     }
     
+    func addExercises(_ exercises: [Exercise]) {
+        customExercises.append(contentsOf: exercises)
+        saveCustomExercises()
+    }
+    
     func deleteExercise(at offsets: IndexSet) {
         for index in offsets.sorted(by: >) {
             customExercises.remove(at: index)

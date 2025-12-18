@@ -11,7 +11,8 @@ struct EquipmentData {
     static let allEquipment: [Exercise] = [
         Exercise(
             name: "跑步機 (Treadmill)",
-            img: "Treadmill",
+            assetImageName: "Treadmill",
+            userImageBase64: nil,
             videoURL: nil,
             description: "有氧運動器材，可調整速度與坡度。",
             muscleGroups: "下肢肌群、心肺功能",
@@ -21,7 +22,8 @@ struct EquipmentData {
         ),
         Exercise(
             name: "橢圓機 (Elliptical Trainer)",
-            img: "Elliptical Trainer",
+            assetImageName: "Elliptical Trainer",
+            userImageBase64: nil,
             videoURL: nil,
             description: "低衝擊的有氧器材，模擬跑步動作。",
             muscleGroups: "全身肌群、心肺功能",
@@ -31,7 +33,8 @@ struct EquipmentData {
         ),
         Exercise(
             name: "飛輪/健身車 (Stationary Bike)",
-            img: "Stationary Bike",
+            assetImageName: "Stationary Bike",
+            userImageBase64: nil,
             videoURL: nil,
             description: "模擬騎腳踏車的運動器材。",
             muscleGroups: "股四頭肌、腿後肌群、小腿",
@@ -41,7 +44,8 @@ struct EquipmentData {
         ),
         Exercise(
             name: "划船機 (Rowing Machine)",
-            img: "Rowing Machine",
+            assetImageName: "Rowing Machine",
+            userImageBase64: nil,
             videoURL: nil,
             description: "模擬划船動作，鍛鍊全身耐力。",
             muscleGroups: "背部、腿部、手臂、核心",
@@ -51,7 +55,8 @@ struct EquipmentData {
         ),
         Exercise(
             name: "登階機 (Stair Climber)",
-            img: "Stair Climber",
+            assetImageName: "Stair Climber",
+            userImageBase64: nil,
             videoURL: nil,
             description: "模擬爬樓梯的運動器材。",
             muscleGroups: "臀大肌、股四頭肌、小腿",
@@ -61,7 +66,8 @@ struct EquipmentData {
         ),
         Exercise(
             name: "啞鈴 (Dumbbells)",
-            img: "Dumbbells",
+            assetImageName: "Dumbbells",
+            userImageBase64: nil,
             videoURL: nil,
             description: "自由重量器材，可用於多種訓練。",
             muscleGroups: "全身各部位",
@@ -71,7 +77,8 @@ struct EquipmentData {
         ),
         Exercise(
             name: "槓鈴 (Barbells)",
-            img: "Barbells",
+            assetImageName: "Barbells",
+            userImageBase64: nil,
             videoURL: nil,
             description: "自由重量器材，適合大重量複合動作。",
             muscleGroups: "全身各部位",
@@ -81,7 +88,8 @@ struct EquipmentData {
         ),
         Exercise(
             name: "壺鈴 (Kettlebells)",
-            img: "Kettlebells",
+            assetImageName: "Kettlebells",
+            userImageBase64: nil,
             videoURL: nil,
             description: "重心偏離把手的自由重量器材。",
             muscleGroups: "全身爆發力、核心",
@@ -91,7 +99,8 @@ struct EquipmentData {
         ),
         Exercise(
             name: "臥推椅 (Weight Bench)",
-            img: "Weight Bench",
+            assetImageName: "Weight Bench",
+            userImageBase64: nil,
             videoURL: nil,
             description: "用於躺姿或坐姿訓練的輔助長椅。",
             muscleGroups: "輔助器材",
@@ -101,7 +110,8 @@ struct EquipmentData {
         ),
         Exercise(
             name: "史密斯機器 (Smith Machine)",
-            img: "Smith Machine",
+            assetImageName: "Smith Machine",
+            userImageBase64: nil,
             videoURL: nil,
             description: "固定軌道的槓鈴訓練器材。",
             muscleGroups: "全身各部位",
@@ -111,7 +121,8 @@ struct EquipmentData {
         ),
         Exercise(
             name: "深蹲架 / 力量架 (Power Rack)",
-            img: "Power Rack  Squat Rack",
+            assetImageName: "Power Rack  Squat Rack",
+            userImageBase64: nil,
             videoURL: nil,
             description: "提供安全保護的槓鈴訓練架。",
             muscleGroups: "輔助器材",
@@ -121,7 +132,8 @@ struct EquipmentData {
         ),
         Exercise(
             name: "龍門架 / 纜繩機 (Cable Crossover)",
-            img: "Cable Crossover Machine",
+            assetImageName: "Cable Crossover Machine",
+            userImageBase64: nil,
             videoURL: nil,
             description: "多功能的纜繩訓練機。",
             muscleGroups: "全身各部位",
@@ -131,7 +143,8 @@ struct EquipmentData {
         ),
         Exercise(
             name: "坐姿胸推機 (Chest Press Machine)",
-            img: "Chest Press Machine",
+            assetImageName: "Chest Press Machine",
+            userImageBase64: nil,
             videoURL: nil,
             description: "固定軌道的胸部推舉訓練機。",
             muscleGroups: "胸大肌、三頭肌、三角肌前束",
@@ -141,7 +154,8 @@ struct EquipmentData {
         ),
         Exercise(
             name: "滑輪下拉機 (Lat Pulldown Machine)",
-            img: "LatPulldownMachine",
+            assetImageName: "LatPulldownMachine",
+            userImageBase64: nil,
             videoURL: nil,
             description: "鍛鍊背部寬度的訓練機。",
             muscleGroups: "背闊肌、二頭肌",
@@ -151,7 +165,8 @@ struct EquipmentData {
         ),
         Exercise(
             name: "坐姿划船機 (Seated Row Machine)",
-            img: "Seated Row Machine",
+            assetImageName: "Seated Row Machine",
+            userImageBase64: nil,
             videoURL: nil,
             description: "鍛鍊背部厚度的訓練機。",
             muscleGroups: "背闊肌、菱形肌、斜方肌",
@@ -161,7 +176,8 @@ struct EquipmentData {
         ),
         Exercise(
             name: "肩推機 (Shoulder Press Machine)",
-            img: "Shoulder Press Machine",
+            assetImageName: "Shoulder Press Machine",
+            userImageBase64: nil,
             videoURL: nil,
             description: "固定軌道的肩部推舉訓練機。",
             muscleGroups: "三角肌、三頭肌",
@@ -171,7 +187,8 @@ struct EquipmentData {
         ),
         Exercise(
             name: "腿推機 (Leg Press Machine)",
-            img: "LegPressMachine",
+            assetImageName: "LegPressMachine",
+            userImageBase64: nil,
             videoURL: nil,
             description: "腿部推舉訓練機，適合大重量訓練。",
             muscleGroups: "股四頭肌、臀大肌",
@@ -181,7 +198,8 @@ struct EquipmentData {
         ),
         Exercise(
             name: "腿屈伸機 (Leg Extension Machine)",
-            img: "LegExtensionMachine",
+            assetImageName: "LegExtensionMachine",
+            userImageBase64: nil,
             videoURL: nil,
             description: "孤立鍛鍊股四頭肌的器械。",
             muscleGroups: "股四頭肌",
@@ -191,7 +209,8 @@ struct EquipmentData {
         ),
         Exercise(
             name: "腿後勾機 (Leg Curl Machine)",
-            img: "LegCurlMachine",
+            assetImageName: "LegCurlMachine",
+            userImageBase64: nil,
             videoURL: nil,
             description: "孤立鍛鍊腿後肌群的器械。",
             muscleGroups: "腿後肌群",
@@ -201,7 +220,8 @@ struct EquipmentData {
         ),
         Exercise(
             name: "蝴蝶機 (Pec Fly)",
-            img: "RearDeltMachine",
+            assetImageName: "RearDeltMachine",
+            userImageBase64: nil,
             videoURL: nil,
             description: "鍛鍊胸肌中縫與外側的器械。",
             muscleGroups: "胸大肌",
@@ -211,7 +231,8 @@ struct EquipmentData {
         ),
         Exercise(
             name: "引體向上 / 雙槓撐體架",
-            img: "PullUp",
+            assetImageName: "PullUp",
+            userImageBase64: nil,
             videoURL: nil,
             description: "利用自身體重進行訓練的複合器械。",
             muscleGroups: "背部、胸部、手臂",
@@ -221,7 +242,8 @@ struct EquipmentData {
         ),
         Exercise(
             name: "羅馬椅 (Roman Chair)",
-            img: "RomanChair",
+            assetImageName: "RomanChair",
+            userImageBase64: nil,
             videoURL: nil,
             description: "鍛鍊下背與核心的器械。",
             muscleGroups: "下背、臀大肌、腿後肌群",
@@ -231,7 +253,8 @@ struct EquipmentData {
         ),
         Exercise(
             name: "腹部訓練機 (Abdominal Machine)",
-            img: "AbdominalMachine",
+            assetImageName: "AbdominalMachine",
+            userImageBase64: nil,
             videoURL: nil,
             description: "增加阻力的腹肌訓練器械。",
             muscleGroups: "腹直肌",
@@ -241,7 +264,8 @@ struct EquipmentData {
         ),
         Exercise(
             name: "腿部外展/內收機",
-            img: "AdductionMachine",
+            assetImageName: "AdductionMachine",
+            userImageBase64: nil,
             videoURL: nil,
             description: "鍛鍊大腿內外側肌群的器械。",
             muscleGroups: "臀中肌、大腿內收肌",
@@ -251,7 +275,8 @@ struct EquipmentData {
         ),
         Exercise(
             name: "TRX 懸吊訓練繩",
-            img: "TRX",
+            assetImageName: "TRX",
+            userImageBase64: nil,
             videoURL: nil,
             description: "利用懸吊不穩定性進行全身訓練。",
             muscleGroups: "全身、核心",
