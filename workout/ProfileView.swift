@@ -78,7 +78,7 @@ struct StatsGridView: View {
     var body: some View {
         HStack(spacing: 20) {
             StatBox(title: "總訓練次數", value: "\(userData.workoutLogs.count)")
-            StatBox(title: "目前連續天數", value: "1")
+            StatBox(title: "目前連續天數", value: "\(userData.consecutiveDays)")
         }
     }
 }

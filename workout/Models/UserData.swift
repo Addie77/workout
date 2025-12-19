@@ -24,6 +24,34 @@ class UserData: ObservableObject {
     @Published var userProfile: UserProfile?
     @Published var workoutLogs: [WorkoutLog] = []
     
+    var consecutiveDays: Int {
+        let calendar = Calendar.current
+        let uniqueDates = Set(workoutLogs.map { calendar.startOfDay(for: $0.date) }).sorted(by: >)
+        
+        guard let lastWorkoutDate = uniqueDates.first else { return 0 }
+        
+        let today = calendar.startOfDay(for: Date())
+        let yesterday = calendar.date(byAdding: .day, value: -1, to: today)!
+        
+        if lastWorkoutDate != today && lastWorkoutDate != yesterday {
+            return 0
+        }
+        
+        var streak = 0
+        var currentDateToCheck = lastWorkoutDate
+        
+        for date in uniqueDates {
+            if date == currentDateToCheck {
+                streak += 1
+                currentDateToCheck = calendar.date(byAdding: .day, value: -1, to: currentDateToCheck)!
+            } else {
+                break
+            }
+        }
+        
+        return streak
+    }
+    
     private let userProfileKey = "userProfile"
     private let onboardingCompleteKey = "isOnboardingComplete"
     private let workoutLogsKey = "workoutLogs"
