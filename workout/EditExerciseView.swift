@@ -14,6 +14,7 @@ struct EditExerciseView: View {
     @State private var selectedItem: PhotosPickerItem?
     @State private var selectedImage: UIImage? // For previewing selected image
     @State private var selectedImageBase64: String? // Store Base64 string for Exercise model
+    @State private var videoURLString: String = "" // New state for video URL
     
     let exercise: Exercise
     let muscleGroups = ["腿部", "胸部", "背部", "手臂", "核心", "其他"]
@@ -24,6 +25,7 @@ struct EditExerciseView: View {
         _instructions = State(initialValue: exercise.instructions)
         _commonMistakes = State(initialValue: exercise.commonMistakes)
         _selectedImageBase64 = State(initialValue: exercise.userImageBase64)
+        _videoURLString = State(initialValue: exercise.videoURL?.absoluteString ?? "")
         
         // Load initial image for preview if it exists
         if let base64String = exercise.userImageBase64,
@@ -108,6 +110,13 @@ struct EditExerciseView: View {
                     TextEditor(text: $commonMistakes)
                         .frame(height: 100)
                 }
+                
+                Section(header: Text("影片連結 (可選)")) {
+                    TextField("請輸入影片URL (例如: YouTube)", text: $videoURLString)
+                        .keyboardType(.URL)
+                        .autocapitalization(.none)
+                        .disableAutocorrection(true)
+                }
             }
             .navigationTitle("編輯動作")
             .navigationBarTitleDisplayMode(.inline)
@@ -122,12 +131,14 @@ struct EditExerciseView: View {
                         if exerciseName.isEmpty {
                             showAlert = true
                         } else {
+                            let parsedVideoURL = URL(string: videoURLString.trimmingCharacters(in: .whitespacesAndNewlines))
+                            
                             let updatedExercise = Exercise(
                                 id: exercise.id,
                                 name: exerciseName,
-                                assetImageName: exercise.assetImageName, // Keep original asset name if it exists
-                                userImageBase64: selectedImageBase64, // Use newly selected or existing base64
-                                videoURL: exercise.videoURL,
+                                assetImageName: exercise.assetImageName,
+                                userImageBase64: selectedImageBase64,
+                                videoURL: parsedVideoURL,
                                 description: "",
                                 muscleGroups: muscleGroups[targetMuscleGroup],
                                 instructions: instructions,
@@ -148,6 +159,6 @@ struct EditExerciseView: View {
 }
 
 #Preview {
-    EditExerciseView(exercise: Exercise(name: "My Custom Exercise", assetImageName: nil, userImageBase64: nil, videoURL: nil, description: "My notes", muscleGroups: "胸部", instructions: "Step 1...", commonMistakes: "Don't do this...", category: "胸部"))
+    EditExerciseView(exercise: Exercise(name: "My Custom Exercise", assetImageName: nil, userImageBase64: nil, videoURL: URL(string: "https://www.youtube.com/watch?v=someid"), description: "My notes", muscleGroups: "胸部", instructions: "Step 1...", commonMistakes: "Don't do this...", category: "胸部"))
         .environmentObject(CustomExerciseManager())
 }

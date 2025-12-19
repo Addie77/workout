@@ -13,6 +13,7 @@ struct CreateExerciseView: View {
     @State private var selectedItem: PhotosPickerItem?
     @State private var selectedImage: UIImage? // Keep UIImage for preview
     @State private var selectedImageBase64: String? // Store Base64 string for Exercise model
+    @State private var videoURLString: String = "" // New state for video URL
     
     let muscleGroups = ["腿部", "胸部", "背部", "手臂", "核心", "其他"]
 
@@ -77,6 +78,13 @@ struct CreateExerciseView: View {
                     TextEditor(text: $commonMistakes)
                         .frame(height: 100)
                 }
+                
+                Section(header: Text("影片連結 (可選)")) {
+                    TextField("請輸入影片URL (例如: YouTube)", text: $videoURLString)
+                        .keyboardType(.URL)
+                        .autocapitalization(.none)
+                        .disableAutocorrection(true)
+                }
             }
             .navigationTitle("建立新動作")
             .navigationBarTitleDisplayMode(.inline)
@@ -91,11 +99,13 @@ struct CreateExerciseView: View {
                         if exerciseName.isEmpty {
                             showAlert = true
                         } else {
+                            let parsedVideoURL = URL(string: videoURLString.trimmingCharacters(in: .whitespacesAndNewlines))
+                            
                             let newExercise = Exercise(
                                 name: exerciseName,
                                 assetImageName: nil, // Newly created custom exercises will use userImageBase64
                                 userImageBase64: selectedImageBase64,
-                                videoURL: nil,
+                                videoURL: parsedVideoURL, // Pass the parsed video URL
                                 description: "",
                                 muscleGroups: muscleGroups[targetMuscleGroup],
                                 instructions: instructions,
